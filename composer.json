@@ -1,0 +1,32 @@
+{
+  "name": "noflash/torrent-ghost",
+  "type": "project",
+  "description": "Automatic portable torrent downloader with low resources footprint.",
+  "keywords": [
+    "torrent",
+    "xml",
+    "rss"
+  ],
+  "homepage": "https://github.com/kiler129/LazyPirate",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Grzegorz Zdanowski",
+      "email": "grzegorz@noflash.pl",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "noFlash\\TorrentGhost\\": ""
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}
