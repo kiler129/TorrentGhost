@@ -1,5 +1,4 @@
 # JetBrains IDEs
-*.iml
 .idea/
 
 # OSX stuff
@@ -27,4 +26,3 @@ build/*
 # Composer
 composer.phar
 vendor/*
-composer.lock
