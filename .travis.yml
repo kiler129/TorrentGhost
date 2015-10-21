@@ -9,7 +9,7 @@ php:
 
 matrix:
   allow_failures:
-  - php: hhvm
+    - php: hhvm
 
 before_script: composer install --dev
 script: phpunit --configuration phpunit.xml.dist
