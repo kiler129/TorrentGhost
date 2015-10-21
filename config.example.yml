@@ -1,0 +1,34 @@
+torrentGhost:
+  filesSavePath: /home/torrents/incomming/
+
+dataSources:
+  OpenSourceTracker:
+    type: fifo
+    path: /tmp/os_tracker_log.fifo
+    nameExtractPattern: '/^(.*?) \-/'
+    linkExtractPattern: '/\- (.*?)$/'
+    linkTransformPattern: ['/^(.*?)$/', '$1?passkey=1234']
+    linkCookies:
+      ssid: 1234
+      user_logged: 1
+    filesSavePath: /home/torrents/incomming/opensourcetracker/
+
+  AnotherOSTracker:
+    type: rss
+    url: http://another-os-tracker.tld/feed.rss
+    interval: 300
+    nameTagName: title
+    nameExtractPattern: null
+    linkTagName: link
+    linkExtractPattern: null
+    linkTransformPattern: ['/^(.*?)$/', '$1?downloadKey=4312']
+    linkCookies:
+      session: 321
+    filesSavePath: /home/torrents/incomming/anotheropensourcetracker/
+
+downloadRules:
+  Ubuntu:
+    sources: [OpenSourceTracker, AnotherOSTracker]
+    nameContainsPattern: '/ubuntu/i'
+    nameNotContainsPattern: '/book|video/i'
+    filesSavePath: /home/torrents/incomming/ubuntu/
