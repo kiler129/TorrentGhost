@@ -1,5 +1,6 @@
 torrentGhost:
   filesSavePath: /home/torrents/incomming/
+  fileSizeLimit: 25M
 
 dataSources:
   OpenSourceTracker:
