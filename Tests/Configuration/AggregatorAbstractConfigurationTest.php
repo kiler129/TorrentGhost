@@ -13,6 +13,11 @@ class AggregatorAbstractConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->subjectUnderTest = $this->getMockForAbstractClass('\noFlash\TorrentGhost\Configuration\AggregatorAbstractConfiguration');
     }
 
+    public function testClassImplementsConfigurationInterface()
+    {
+        $this->assertInstanceOf('\noFlash\TorrentGhost\Configuration\ConfigurationInterface', $this->subjectUnderTest);
+    }
+
     public function namesProvider()
     {
         return [
@@ -173,5 +178,10 @@ class AggregatorAbstractConfigurationTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->subjectUnderTest->setLinkCookies(new \stdClass());
+    }
+
+    public function testConfigurationIsConsideredValidOnFreshObject()
+    {
+        $this->assertTrue($this->subjectUnderTest->isValid());
     }
 }

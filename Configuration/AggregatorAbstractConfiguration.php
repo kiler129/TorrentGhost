@@ -6,7 +6,10 @@ namespace noFlash\TorrentGhost\Configuration;
 use noFlash\TorrentGhost\Exception\RegexException;
 use noFlash\TorrentGhost\Http\CookiesBag;
 
-abstract class AggregatorAbstractConfiguration
+/**
+ * Generic configuration class common for all content aggregators.
+ */
+abstract class AggregatorAbstractConfiguration implements ConfigurationInterface
 {
     /**
      * @var string Regex used to extract name. By default matches whole string.
@@ -145,4 +148,14 @@ abstract class AggregatorAbstractConfiguration
     {
         $this->linkCookies = $linkCookies;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isValid()
+    {
+        return true; //Default values are sufficient as configuration.
+    }
+
+
 }
