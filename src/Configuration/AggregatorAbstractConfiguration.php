@@ -22,6 +22,11 @@ use noFlash\TorrentGhost\Http\CookiesBag;
 abstract class AggregatorAbstractConfiguration implements ConfigurationInterface
 {
     /**
+     * @var string Unique, human-readable, name of current aggregator instance.
+     */
+    protected $name = 'UnknownAggregator';
+
+    /**
      * @var string Regex used to extract name. By default matches whole string.
      */
     protected $nameExtractPattern = '/^(.*?)$/';
@@ -48,6 +53,26 @@ abstract class AggregatorAbstractConfiguration implements ConfigurationInterface
      *     no cookies will be used.
      */
     protected $linkCookies = null;
+
+    /**
+     * Provides name of current aggregator instance. Name is unique across whole application.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Provides name of current aggregator instance. Name is unique across whole application.
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = (string)$name;
+    }
 
     /**
      * Provides regex to extract name.
@@ -166,6 +191,4 @@ abstract class AggregatorAbstractConfiguration implements ConfigurationInterface
     {
         return true; //Default values are sufficient as configuration.
     }
-
-
 }
