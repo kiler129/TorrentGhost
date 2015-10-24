@@ -1,6 +1,6 @@
 <?php
 
-namespace noFlash\TorrentGhost\Tests\Exception;
+namespace noFlash\TorrentGhost\Test\Exception;
 
 
 class UnsupportedFeatureExceptionTest extends \PHPUnit_Framework_TestCase

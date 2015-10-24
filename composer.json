@@ -28,7 +28,12 @@
   },
   "autoload": {
     "psr-4": {
-      "noFlash\\TorrentGhost\\": ""
+      "noFlash\\TorrentGhost\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "noFlash\\TorrentGhost\\Test\\": "src/"
     }
   },
   "extra": {

@@ -1,6 +1,6 @@
 <?php
 
-namespace noFlash\TorrentGhost\Tests\Configuration;
+namespace noFlash\TorrentGhost\Test\Configuration;
 
 
 class AggregatorAbstractConfigurationTest extends \PHPUnit_Framework_TestCase

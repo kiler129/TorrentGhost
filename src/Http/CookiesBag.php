@@ -60,6 +60,29 @@ class CookiesBag implements \ArrayAccess, \Iterator
     }
 
     /**
+     * Checks whatever cookie with given nam exists in current bag.
+     *
+     * @param string $key Case insensitive cookie name.
+     *
+     * @return bool True if found, false otherwise.
+     */
+    public function has($key)
+    {
+        return isset($this->cookies[strtolower($key)]);
+    }
+
+    /**
+     * Sets cookie value. If cookie already exists it will be overwritten.
+     *
+     * @param string $key Case insensitive cookie name.
+     * @param string $val Cookie value. All types are internally casted to string.
+     */
+    public function set($key, $val)
+    {
+        $this->cookies[strtolower($key)] = [$key, $val];
+    }
+
+    /**
      * Clears all cookies.
      */
     public function reset()
@@ -155,18 +178,6 @@ class CookiesBag implements \ArrayAccess, \Iterator
     }
 
     /**
-     * Checks whatever cookie with given nam exists in current bag.
-     *
-     * @param string $key Case insensitive cookie name.
-     *
-     * @return bool True if found, false otherwise.
-     */
-    public function has($key)
-    {
-        return isset($this->cookies[strtolower($key)]);
-    }
-
-    /**
      * Provides value for cookie by given name.
      *
      * @param string $key Case insensitive cookie name.
@@ -182,17 +193,6 @@ class CookiesBag implements \ArrayAccess, \Iterator
         }
 
         return $this->cookies[strtolower($key)][1];
-    }
-
-    /**
-     * Sets cookie value. If cookie already exists it will be overwritten.
-     *
-     * @param string $key Case insensitive cookie name.
-     * @param string $val Cookie value. All types are internally casted to string.
-     */
-    public function set($key, $val)
-    {
-        $this->cookies[strtolower($key)] = [$key, $val];
     }
 
     /**

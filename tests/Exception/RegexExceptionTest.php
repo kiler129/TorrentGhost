@@ -1,6 +1,6 @@
 <?php
 
-namespace noFlash\TorrentGhost\Tests\Exception;
+namespace noFlash\TorrentGhost\Test\Exception;
 
 
 use noFlash\TorrentGhost\Exception\RegexException;

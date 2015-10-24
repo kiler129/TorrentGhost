@@ -1,6 +1,6 @@
 <?php
 
-namespace noFlash\TorrentGhost\Tests\Configuration;
+namespace noFlash\TorrentGhost\Test\Configuration;
 
 
 use noFlash\TorrentGhost\Configuration\TorrentGhostConfiguration;

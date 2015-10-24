@@ -1,6 +1,6 @@
 <?php
 
-namespace noFlash\TorrentGhost\Tests\Http;
+namespace noFlash\TorrentGhost\Test\Http;
 
 
 use noFlash\TorrentGhost\Http\CookiesBag;
