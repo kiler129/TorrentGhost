@@ -19,7 +19,7 @@ use noFlash\TorrentGhost\Http\CookiesBag;
 /**
  * Generic configuration class common for all content aggregators.
  */
-abstract class AggregatorAbstractConfiguration implements ConfigurationInterface
+abstract class AggregatorAbstractConfiguration implements NameAwareConfigurationInterface
 {
     use NamedConfigurationTrait;
 
