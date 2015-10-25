@@ -28,19 +28,12 @@ class AggregatorAbstractConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\noFlash\TorrentGhost\Configuration\ConfigurationInterface', $this->subjectUnderTest);
     }
 
-    public function testAggregatorNameCanBeSet()
+    public function testClassUsesNamedConfigurationTrait()
     {
-        $this->subjectUnderTest->setName('ExampleAggregator');
-        $this->assertSame('ExampleAggregator', $this->subjectUnderTest->getName());
+        $sutReflection = new \ReflectionClass('\noFlash\TorrentGhost\Configuration\AggregatorAbstractConfiguration');
+        $classTraits = $sutReflection->getTraitNames();
 
-        $this->subjectUnderTest->setName('DerpDerpMoew');
-        $this->assertSame('DerpDerpMoew', $this->subjectUnderTest->getName());
-    }
-
-    public function testAggregatorNameSetterConvertsValuesToString()
-    {
-        $this->subjectUnderTest->setName(123);
-        $this->assertSame('123', $this->subjectUnderTest->getName());
+        $this->assertContains('noFlash\TorrentGhost\Configuration\NamedConfigurationTrait', $classTraits);
     }
 
     public function namesProvider()
