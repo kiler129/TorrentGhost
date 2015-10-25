@@ -14,7 +14,7 @@ namespace noFlash\TorrentGhost\Http;
 
 /**
  * Object of this class holds multiple HTTP cookies.
- * CookiesBag supports itterating or accesing like array.
+ * CookiesBag supports iterating or accessing like array.
  *
  * @todo Values & names validation
  */
@@ -194,7 +194,7 @@ class CookiesBag implements \ArrayAccess, \Iterator
      *
      * @return string
      * @throws \InvalidArgumentException Thrown if cookie with given name does not exist in current bag.
-     * @todo Optimize it to not execute strtolower twice
+     * @todo Optimize it to not execute strtolower() twice
      */
     public function get($key)
     {

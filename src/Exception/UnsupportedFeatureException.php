@@ -13,6 +13,9 @@
 namespace noFlash\TorrentGhost\Exception;
 
 
+/**
+ * Exception thrown if some feature was used which is not (yet) supported.
+ */
 class UnsupportedFeatureException extends \Exception
 {
 }

@@ -74,7 +74,7 @@ class FetchJob
     {
         $this->response = null;
         if ($this->responseStream === null) { //No stream was set using setResponseSteam() so temporary stream need to be created
-            $this->responseStream = @fopen('php://temp/maxmemory:8388608', 'w'); //up to 8MiB is keept in memory
+            $this->responseStream = @fopen('php://temp/maxmemory:8388608', 'w'); //up to 8MiB is kept in memory
 
             if ($this->responseStream === false) {
                 throw new \RuntimeException('Failed to open temporary stream for output - job cannot complete');

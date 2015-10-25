@@ -139,7 +139,9 @@ class AbstractAggregator implements AggregatorInterface
     /**
      * This method will try to extract link & transform it according to rules defined in config.
      *
-     * @return string|false Will return title or false if extraction didn't produced any result.
+     * @param $string
+     *
+     * @return bool|mixed $string false|string Will return title or false if extraction didn't produced any result.
      * @throws RegexException Supplied extraction/transform regex is invalid.
      */
     public function extractLink($string)

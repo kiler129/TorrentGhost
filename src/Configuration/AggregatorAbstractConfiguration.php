@@ -88,6 +88,8 @@ abstract class AggregatorAbstractConfiguration implements ConfigurationInterface
      * Sets regex used to extract name.
      *
      * @param string $nameExtractPattern Any valid regex. First group will be used while matching.
+     *
+     * @throws RegexException
      */
     public function setNameExtractPattern($nameExtractPattern)
     {
@@ -112,6 +114,8 @@ abstract class AggregatorAbstractConfiguration implements ConfigurationInterface
      * Sets regex used to extract link.
      *
      * @param string $linkExtractPattern Any valid regex. First group will be used while matching.
+     *
+     * @throws RegexException
      */
     public function setLinkExtractPattern($linkExtractPattern)
     {

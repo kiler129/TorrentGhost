@@ -15,8 +15,14 @@ namespace noFlash\TorrentGhost\Exception;
 
 use Exception;
 
+/**
+ * This exception should be used in case of invalid regular expression.
+ */
 class RegexException extends \RuntimeException
 {
+    /**
+     * @var array Maps PREG_* codes to human-readable strings
+     */
     private $pregErrors = [
         PREG_INTERNAL_ERROR => 'internal error',
         PREG_BACKTRACK_LIMIT_ERROR => 'backtrack limit exceeded',

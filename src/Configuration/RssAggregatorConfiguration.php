@@ -94,6 +94,8 @@ class RssAggregatorConfiguration extends AggregatorAbstractConfiguration
      * Sets number of seconds between each RSS fetch.
      *
      * @param int $interval Number of seconds.
+     *
+     * @throws \InvalidArgumentException Thrown if interval is smaller than 1 or not integer.
      */
     public function setInterval($interval)
     {
@@ -161,9 +163,10 @@ class RssAggregatorConfiguration extends AggregatorAbstractConfiguration
     /**
      * Sets tag name where to look for link.
      *
-     * @param string $nameTagName Any valid XML tag.
+     * @param $linkTagName
      *
      * @throws \InvalidArgumentException Thrown if invalid tag name was specified.
+     * @internal param string $nameTagName Any valid XML tag.
      */
     public function setLinkTagName($linkTagName)
     {

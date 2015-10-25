@@ -38,7 +38,7 @@ interface AggregatorInterface
 
     /**
      * Tells the core if stream given by getStream() is expected to be watched for writeability. Since streams are mosly
-     * ready for writting this method should return true only when aggregator really wants to write data and already
+     * ready for writing this method should return true only when aggregator really wants to write data and already
      * have it prepared.
      *
      * Note: Method is called only if aggregator returned a stream from getStream().
