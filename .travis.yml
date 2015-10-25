@@ -13,3 +13,7 @@ matrix:
 
 before_script: composer install --dev
 script: phpunit --configuration phpunit.xml.dist
+
+addons:
+  code_climate:
+    repo_token: 3e677511cc64c141ef7dad60753f9316dc4f795feec34c0da8ed791f0073bbac
