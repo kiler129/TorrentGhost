@@ -57,7 +57,8 @@ class RssAggregatorConfiguration extends AggregatorAbstractConfiguration
      */
     public function setUrl($url)
     {
-        if (!preg_match("
+        if (!preg_match(
+            "
               /^                                                      # Start at the beginning of the text
               (?:https?|ftps?):\/\/                                   # Look for http, https, ftp or ftps schema
               (?:                                                     # Userinfo (optional) which is typically
@@ -72,7 +73,9 @@ class RssAggregatorConfiguration extends AggregatorAbstractConfiguration
               (?:[\/|\?]
                 (?:[\w#!:\.\?\+=&@$'~*,;\/\(\)\[\]\-]|%[0-9a-f]{2}|\p{L})   # The path and query (optional)
               *)?
-            $/xiu", $url)
+            $/xiu",
+            $url
+        )
         ) {
             throw new \InvalidArgumentException('Invalid RSS feed URL');
         }
@@ -100,7 +103,9 @@ class RssAggregatorConfiguration extends AggregatorAbstractConfiguration
     public function setInterval($interval)
     {
         if (!is_int($interval) || $interval < 1) {
-            throw new \InvalidArgumentException('Specified interval value cannot be used - it should be integer not smaller than 1');
+            throw new \InvalidArgumentException(
+                'Specified interval value cannot be used - it should be integer not smaller than 1'
+            );
         }
 
         $this->interval = $interval;

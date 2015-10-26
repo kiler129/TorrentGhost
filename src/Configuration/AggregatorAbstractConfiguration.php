@@ -119,7 +119,7 @@ abstract class AggregatorAbstractConfiguration implements NameAwareConfiguration
      * passkey). If null link will not be transformed by preg_replace().
      *
      * @param array|null $linkTransformPattern Numeric array with exactly two fields containing regex pattern and
-     *     replacement.
+     *                                         replacement.
      *
      * @throws RegexException
      * @throws \RuntimeException Thrown if invalid array was passed.

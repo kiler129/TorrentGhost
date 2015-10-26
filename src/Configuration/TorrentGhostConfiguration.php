@@ -50,7 +50,9 @@ class TorrentGhostConfiguration implements ConfigurationInterface
         $absolutePath = realpath($filesSavePath);
 
         if ($absolutePath === false) {
-            throw new \RuntimeException("Path $filesSavePath cannot be used as files target directory - it's invalid or inaccessible.");
+            throw new \RuntimeException(
+                "Path $filesSavePath cannot be used as files target directory - it's invalid or inaccessible."
+            );
         }
 
         if (!is_dir($absolutePath)) {
@@ -80,7 +82,7 @@ class TorrentGhostConfiguration implements ConfigurationInterface
      * Zero is treated as no limit.
      *
      * @param int|float|string $fileSizeLimit Raw value in bytes (e.g. 999), 1K or 3M, 2.5G. Half-byte values are
-     *     rounded.
+     *                                        rounded.
      *
      * @throws \OutOfRangeException
      */

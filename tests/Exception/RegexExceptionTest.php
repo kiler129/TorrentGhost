@@ -38,7 +38,9 @@ class RegexExceptionTest extends \PHPUnit_Framework_TestCase
     public function testExceptionMessageEndsWithErrorMessageExplanationIfErrorOccured()
     {
         if (preg_last_error() !== PREG_NO_ERROR) {
-            $this->fail('Test runtime error - preg_last_error is not clear, it contains error code of ' . preg_last_error());
+            $this->fail(
+                'Test runtime error - preg_last_error is not clear, it contains error code of ' . preg_last_error()
+            );
         }
 
         $exception = new RegexException('', 'REGEX');

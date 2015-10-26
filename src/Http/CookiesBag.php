@@ -27,7 +27,7 @@ class CookiesBag implements \ArrayAccess, \Iterator
 
     /**
      * @param array $cookies Array of two elements arrays containing key and value for cookies, example: [['c1'=>'v1'],
-     *     ['c2'=>'v2']]
+     *                       ['c2'=>'v2']]
      *
      * @return CookiesBag
      * @throws \RuntimeException Will be thrown if mallformed $cookies array was passed.
@@ -43,7 +43,7 @@ class CookiesBag implements \ArrayAccess, \Iterator
             try {
                 $cookiesBag->add(reset($cookie), next($cookie));
 
-            } catch(\Exception $e) {
+            } catch (\Exception $e) {
                 throw new \RuntimeException("Failed to add cookie from offset $key", 0, $e);
             }
         }

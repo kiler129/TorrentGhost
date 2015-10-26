@@ -29,8 +29,10 @@ class RssAggregatorConfigurationTest extends \PHPUnit_Framework_TestCase
 
     public function testClassExtendsAggregatorAbstractConfiguration()
     {
-        $this->assertInstanceOf('\noFlash\TorrentGhost\Configuration\AggregatorAbstractConfiguration',
-            $this->subjectUnderTest);
+        $this->assertInstanceOf(
+            '\noFlash\TorrentGhost\Configuration\AggregatorAbstractConfiguration',
+            $this->subjectUnderTest
+        );
     }
 
     public function testUrlIsNullByDefault()

@@ -56,7 +56,7 @@ class FetchJob
      * FetchJob constructor.
      *
      * @param TorrentGhostConfiguration $appConfig
-     * @param RequestInterface $fileRequest
+     * @param RequestInterface          $fileRequest
      */
     public function __construct(TorrentGhostConfiguration $appConfig, RequestInterface $fileRequest)
     {
@@ -73,7 +73,7 @@ class FetchJob
     public function execute()
     {
         $this->response = null;
-        if ($this->responseStream === null) { //No stream was set using setResponseSteam() so temporary stream need to be created
+        if ($this->responseStream === null) { //Ttemporary stream need to be created
             $this->responseStream = @fopen('php://temp/maxmemory:8388608', 'w'); //up to 8MiB is kept in memory
 
             if ($this->responseStream === false) {
@@ -112,12 +112,15 @@ class FetchJob
             throw new \RuntimeException('Your request uses unknown scheme (other than http/https/ftp/ftps)');
         }
 
-        curl_setopt_array($this->cUrl, [
-            CURLOPT_RETURNTRANSFER => 1, //Note: It have to be set BEFORE CURLOPT_FILE
-            CURLOPT_FILE => $this->responseStream,
-            CURLOPT_HEADER => 0,
-            CURLOPT_CONNECTTIMEOUT => 5,
-        ]);
+        curl_setopt_array(
+            $this->cUrl,
+            [
+                CURLOPT_RETURNTRANSFER => 1, //Note: It have to be set BEFORE CURLOPT_FILE
+                CURLOPT_FILE           => $this->responseStream,
+                CURLOPT_HEADER         => 0,
+                CURLOPT_CONNECTTIMEOUT => 5,
+            ]
+        );
 
         $userInfo = $this->fetchRequest->getUri()->getUserInfo();
         if (!empty($userInfo)) {
@@ -142,14 +145,19 @@ class FetchJob
             $headers[] = $name . ": " . implode(", ", $values);
         }
 
-        curl_setopt_array($this->cUrl, [
-            CURLOPT_AUTOREFERER => 1,
-            CURLOPT_FOLLOWLOCATION => 1,
-            CURLOPT_FAILONERROR => 1,
-            CURLOPT_HTTP_VERSION => ($this->fetchRequest->getProtocolVersion() === '1.0') ? CURL_HTTP_VERSION_1_0 : CURL_HTTP_VERSION_1_1,
-            CURLOPT_USERAGENT => ($this->fetchRequest->getHeader('User-Agent') ?: $this->getDefaultUserAgent()),
-            CURLOPT_HTTPHEADER => $headers,
-        ]);
+        curl_setopt_array(
+            $this->cUrl,
+            [
+                CURLOPT_AUTOREFERER    => 1,
+                CURLOPT_FOLLOWLOCATION => 1,
+                CURLOPT_FAILONERROR    => 1,
+                CURLOPT_HTTP_VERSION   => ($this->fetchRequest->getProtocolVersion() ===
+                                           '1.0') ? CURL_HTTP_VERSION_1_0 : CURL_HTTP_VERSION_1_1,
+                CURLOPT_USERAGENT      => ($this->fetchRequest->getHeader('User-Agent') ?: $this->getDefaultUserAgent(
+                )),
+                CURLOPT_HTTPHEADER     => $headers,
+            ]
+        );
     }
 
     /**
@@ -177,7 +185,7 @@ class FetchJob
      * stream. If called with null stream will be generated at runtime.
      *
      * @param resource|null $responseStream PHP standard stream. StreamInterface wasn't used because it's incompatible
-     *     with stream_select().
+     *                                      with stream_select().
      *
      * @throws \InvalidArgumentException Will be thrown if invalid argument type was passed.
      */

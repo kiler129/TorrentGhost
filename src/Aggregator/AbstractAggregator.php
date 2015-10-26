@@ -36,7 +36,7 @@ class AbstractAggregator implements AggregatorInterface
      * AbstractAggregator constructor.
      *
      * @param AggregatorAbstractConfiguration $configuration
-     * @param LoggerInterface $logger
+     * @param LoggerInterface                 $logger
      */
     public function __construct(AggregatorAbstractConfiguration $configuration, LoggerInterface $logger)
     {
@@ -122,14 +122,20 @@ class AbstractAggregator implements AggregatorInterface
         $matchResult = @preg_match($this->configuration->getNameExtractPattern(), $string, $matches);
 
         if ($matchResult === false) {
-            throw new RegexException('Pattern was configured for ' . $this->getName() . ' aggregator to extract name',
-                $this->configuration->getNameExtractPattern());
+            throw new RegexException(
+                'Pattern was configured for ' . $this->getName() . ' aggregator to extract name',
+                $this->configuration->getNameExtractPattern()
+            );
 
         } elseif ($matchResult === 0 || !isset($matches[1])) { //No matches or empty match
             return false;
 
         } elseif (isset($matches[2])) {
-            $this->logger->warning('Pattern ' . $this->configuration->getNameExtractPattern() . ' configured in ' . $this->getName() . ' aggregator to extract title resulted in ' . (count($matches) - 1) . ' matches instead of one for input string "' . $string . '". Only first one will be used.');
+            $this->logger->warning(
+                'Pattern ' . $this->configuration->getNameExtractPattern() . ' configured in ' . $this->getName() .
+                ' aggregator to extract title resulted in ' . (count($matches) - 1) .
+                ' matches instead of one for input string "' . $string . '". Only first one will be used.'
+            );
         }
 
 
@@ -148,14 +154,20 @@ class AbstractAggregator implements AggregatorInterface
     {
         $matchResult = @preg_match($this->configuration->getLinkExtractPattern(), $string, $matches);
         if ($matchResult === false) {
-            throw new RegexException('Pattern was configured for ' . $this->getName() . ' aggregator to extract link',
-                $this->configuration->getLinkExtractPattern());
+            throw new RegexException(
+                'Pattern was configured for ' . $this->getName() . ' aggregator to extract link',
+                $this->configuration->getLinkExtractPattern()
+            );
 
         } elseif ($matchResult === 0 || !isset($matches[1])) {
             return false;
 
         } elseif (isset($matches[2])) {
-            $this->logger->warning('Pattern ' . $this->configuration->getLinkExtractPattern() . ' configured in ' . $this->getName() . ' aggregator to extract link resulted in ' . (count($matches) - 1) . ' matches instead of one for input string "' . $string . '". Only first one will be used.');
+            $this->logger->warning(
+                'Pattern ' . $this->configuration->getLinkExtractPattern() . ' configured in ' . $this->getName() .
+                ' aggregator to extract link resulted in ' . (count($matches) - 1) .
+                ' matches instead of one for input string "' . $string . '". Only first one will be used.'
+            );
         }
 
         $transformPattern = $this->configuration->getLinkTransformPattern();
@@ -163,8 +175,10 @@ class AbstractAggregator implements AggregatorInterface
             $matches[1] = @preg_replace($transformPattern[0], $transformPattern[1], $matches[1]);
 
             if ($matches[1] === null) { //PHP weirdo - null will be returned for error
-                throw new RegexException('Pattern was configured for ' . $this->getName() . ' aggregator to transform link',
-                    "[{$transformPattern[0]}, {$transformPattern[0]}]");
+                throw new RegexException(
+                    'Pattern was configured for ' . $this->getName() . ' aggregator to transform link',
+                    "[{$transformPattern[0]}, {$transformPattern[0]}]"
+                );
             }
         }
 

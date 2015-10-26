@@ -67,15 +67,21 @@ class CookiesBagTest extends \PHPUnit_Framework_TestCase
     public function testPreviouslySetValueCanBeRetrievedUsingGet()
     {
         $this->subjectUnderTest->set('fOo', 'baRrR');
-        $this->assertSame('baRrR', $this->subjectUnderTest->get('fOo'),
-            '1st test failed for for case-sensitive check.');
+        $this->assertSame(
+            'baRrR',
+            $this->subjectUnderTest->get('fOo'),
+            '1st test failed for for case-sensitive check.'
+        );
         $this->assertSame('baRrR', $this->subjectUnderTest->get('FOO'), '1st test failed for for uppercase check.');
         $this->assertSame('baRrR', $this->subjectUnderTest->get('foo'), '1st test failed for for lowercase check.');
         $this->assertSame('baRrR', $this->subjectUnderTest->get('fOO'), '1st test failed for for mixed-case check.');
 
         $this->subjectUnderTest->set('wOOhaA', 'noTin');
-        $this->assertSame('noTin', $this->subjectUnderTest->get('wOOhaA'),
-            '2nd test failed for for case-sensitive check.');
+        $this->assertSame(
+            'noTin',
+            $this->subjectUnderTest->get('wOOhaA'),
+            '2nd test failed for for case-sensitive check.'
+        );
         $this->assertSame('noTin', $this->subjectUnderTest->get('WOOHAA'), '2nd test failed for for uppercase check.');
         $this->assertSame('noTin', $this->subjectUnderTest->get('woohaa'), '2nd test failed for for lowercase check.');
         $this->assertSame('noTin', $this->subjectUnderTest->get('WOohAa'), '2nd test failed for for mixed-case check.');
@@ -84,15 +90,21 @@ class CookiesBagTest extends \PHPUnit_Framework_TestCase
     public function testPreviouslyAddedValueCanBeRetrievedUsingGet()
     {
         $this->subjectUnderTest->add('fOo', 'baRrR');
-        $this->assertSame('baRrR', $this->subjectUnderTest->get('fOo'),
-            '1st test failed for for case-sensitive check.');
+        $this->assertSame(
+            'baRrR',
+            $this->subjectUnderTest->get('fOo'),
+            '1st test failed for for case-sensitive check.'
+        );
         $this->assertSame('baRrR', $this->subjectUnderTest->get('FOO'), '1st test failed for for uppercase check.');
         $this->assertSame('baRrR', $this->subjectUnderTest->get('foo'), '1st test failed for for lowercase check.');
         $this->assertSame('baRrR', $this->subjectUnderTest->get('fOO'), '1st test failed for for mixed-case check.');
 
         $this->subjectUnderTest->add('wOOhaA', 'noTin');
-        $this->assertSame('noTin', $this->subjectUnderTest->get('wOOhaA'),
-            '2nd test failed for for case-sensitive check.');
+        $this->assertSame(
+            'noTin',
+            $this->subjectUnderTest->get('wOOhaA'),
+            '2nd test failed for for case-sensitive check.'
+        );
         $this->assertSame('noTin', $this->subjectUnderTest->get('WOOHAA'), '2nd test failed for for uppercase check.');
         $this->assertSame('noTin', $this->subjectUnderTest->get('woohaa'), '2nd test failed for for lowercase check.');
         $this->assertSame('noTin', $this->subjectUnderTest->get('WOohAa'), '2nd test failed for for mixed-case check.');
@@ -165,8 +177,11 @@ class CookiesBagTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(1, $this->subjectUnderTest->count(), 'Invalid count value after deleting cookie.');
 
         $this->subjectUnderTest->delete('derp');
-        $this->assertSame(1, $this->subjectUnderTest->count(),
-            'Invalid count value after deleting non-existing cookie.');
+        $this->assertSame(
+            1,
+            $this->subjectUnderTest->count(),
+            'Invalid count value after deleting non-existing cookie.'
+        );
 
         $this->subjectUnderTest->set('lalalalala', 'ough');
         $this->subjectUnderTest->reset();
@@ -256,12 +271,16 @@ class CookiesBagTest extends \PHPUnit_Framework_TestCase
     public function testCheckingForExistingValueReturnsTrue()
     {
         $this->subjectUnderTest->set('boooRRRRing', 'test');
-        $this->assertTrue($this->subjectUnderTest->offsetExists('boooRRRRing'),
-            '1st test failed for case-sensitive check.');
+        $this->assertTrue(
+            $this->subjectUnderTest->offsetExists('boooRRRRing'),
+            '1st test failed for case-sensitive check.'
+        );
         $this->assertTrue($this->subjectUnderTest->offsetExists('BOOORRRRING'), '1st test failed for uppercase check.');
         $this->assertTrue($this->subjectUnderTest->offsetExists('booorrrring'), '1st test failed for lowercase check.');
-        $this->assertTrue($this->subjectUnderTest->offsetExists('BoOoRrRrING'),
-            '1st test failed for mixed-case check.');
+        $this->assertTrue(
+            $this->subjectUnderTest->offsetExists('BoOoRrRrING'),
+            '1st test failed for mixed-case check.'
+        );
 
         $this->subjectUnderTest->set('DeRp', 'foobaz');
         $this->assertTrue($this->subjectUnderTest->offsetExists('DeRp'), '2nd test failed for case-sensitive check.');
@@ -273,47 +292,95 @@ class CookiesBagTest extends \PHPUnit_Framework_TestCase
     public function testPreviouslySetValueCanBeRetrievedUsingOffsetGet()
     {
         $this->subjectUnderTest->set('BzZzZ', 'aAaAaaaaa');
-        $this->assertSame('aAaAaaaaa', $this->subjectUnderTest->offsetGet('BzZzZ'),
-            '1st test failed for for case-sensitive check.');
-        $this->assertSame('aAaAaaaaa', $this->subjectUnderTest->offsetGet('BZZZZ'),
-            '1st test failed for for uppercase check.');
-        $this->assertSame('aAaAaaaaa', $this->subjectUnderTest->offsetGet('bzzzz'),
-            '1st test failed for for lowercase check.');
-        $this->assertSame('aAaAaaaaa', $this->subjectUnderTest->offsetGet('BzzZz'),
-            '1st test failed for for mixed-case check.');
+        $this->assertSame(
+            'aAaAaaaaa',
+            $this->subjectUnderTest->offsetGet('BzZzZ'),
+            '1st test failed for for case-sensitive check.'
+        );
+        $this->assertSame(
+            'aAaAaaaaa',
+            $this->subjectUnderTest->offsetGet('BZZZZ'),
+            '1st test failed for for uppercase check.'
+        );
+        $this->assertSame(
+            'aAaAaaaaa',
+            $this->subjectUnderTest->offsetGet('bzzzz'),
+            '1st test failed for for lowercase check.'
+        );
+        $this->assertSame(
+            'aAaAaaaaa',
+            $this->subjectUnderTest->offsetGet('BzzZz'),
+            '1st test failed for for mixed-case check.'
+        );
 
         $this->subjectUnderTest->set('alOHa', 'teSTING');
-        $this->assertSame('teSTING', $this->subjectUnderTest->offsetGet('alOHa'),
-            '2nd test failed for for case-sensitive check.');
-        $this->assertSame('teSTING', $this->subjectUnderTest->offsetGet('ALOHA'),
-            '2nd test failed for for uppercase check.');
-        $this->assertSame('teSTING', $this->subjectUnderTest->offsetGet('aloha'),
-            '2nd test failed for for lowercase check.');
-        $this->assertSame('teSTING', $this->subjectUnderTest->offsetGet('AlOha'),
-            '2nd test failed for for mixed-case check.');
+        $this->assertSame(
+            'teSTING',
+            $this->subjectUnderTest->offsetGet('alOHa'),
+            '2nd test failed for for case-sensitive check.'
+        );
+        $this->assertSame(
+            'teSTING',
+            $this->subjectUnderTest->offsetGet('ALOHA'),
+            '2nd test failed for for uppercase check.'
+        );
+        $this->assertSame(
+            'teSTING',
+            $this->subjectUnderTest->offsetGet('aloha'),
+            '2nd test failed for for lowercase check.'
+        );
+        $this->assertSame(
+            'teSTING',
+            $this->subjectUnderTest->offsetGet('AlOha'),
+            '2nd test failed for for mixed-case check.'
+        );
     }
 
     public function testPreviouslyAddedValueCanBeRetrievedUsingOffsetGet()
     {
         $this->subjectUnderTest->add('BzZzZ', 'aAaAaaaaa');
-        $this->assertSame('aAaAaaaaa', $this->subjectUnderTest->offsetGet('BzZzZ'),
-            '1st test failed for for case-sensitive check.');
-        $this->assertSame('aAaAaaaaa', $this->subjectUnderTest->offsetGet('BZZZZ'),
-            '1st test failed for for uppercase check.');
-        $this->assertSame('aAaAaaaaa', $this->subjectUnderTest->offsetGet('bzzzz'),
-            '1st test failed for for lowercase check.');
-        $this->assertSame('aAaAaaaaa', $this->subjectUnderTest->offsetGet('BzzZz'),
-            '1st test failed for for mixed-case check.');
+        $this->assertSame(
+            'aAaAaaaaa',
+            $this->subjectUnderTest->offsetGet('BzZzZ'),
+            '1st test failed for for case-sensitive check.'
+        );
+        $this->assertSame(
+            'aAaAaaaaa',
+            $this->subjectUnderTest->offsetGet('BZZZZ'),
+            '1st test failed for for uppercase check.'
+        );
+        $this->assertSame(
+            'aAaAaaaaa',
+            $this->subjectUnderTest->offsetGet('bzzzz'),
+            '1st test failed for for lowercase check.'
+        );
+        $this->assertSame(
+            'aAaAaaaaa',
+            $this->subjectUnderTest->offsetGet('BzzZz'),
+            '1st test failed for for mixed-case check.'
+        );
 
         $this->subjectUnderTest->add('alOHa', 'teSTING');
-        $this->assertSame('teSTING', $this->subjectUnderTest->offsetGet('alOHa'),
-            '2nd test failed for for case-sensitive check.');
-        $this->assertSame('teSTING', $this->subjectUnderTest->offsetGet('ALOHA'),
-            '2nd test failed for for uppercase check.');
-        $this->assertSame('teSTING', $this->subjectUnderTest->offsetGet('aloha'),
-            '2nd test failed for for lowercase check.');
-        $this->assertSame('teSTING', $this->subjectUnderTest->offsetGet('AlOha'),
-            '2nd test failed for for mixed-case check.');
+        $this->assertSame(
+            'teSTING',
+            $this->subjectUnderTest->offsetGet('alOHa'),
+            '2nd test failed for for case-sensitive check.'
+        );
+        $this->assertSame(
+            'teSTING',
+            $this->subjectUnderTest->offsetGet('ALOHA'),
+            '2nd test failed for for uppercase check.'
+        );
+        $this->assertSame(
+            'teSTING',
+            $this->subjectUnderTest->offsetGet('aloha'),
+            '2nd test failed for for lowercase check.'
+        );
+        $this->assertSame(
+            'teSTING',
+            $this->subjectUnderTest->offsetGet('AlOha'),
+            '2nd test failed for for mixed-case check.'
+        );
     }
 
     public function testValueCanBeSetUsingOffsetSet()
@@ -401,13 +468,19 @@ class CookiesBagTest extends \PHPUnit_Framework_TestCase
         try {
             CookiesBag::fromArray($testArray);
 
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->assertInstanceOf('\RuntimeException', $e, 'Thrown exception type is invalid.');
-            $this->assertSame('Failed to add cookie from offset 2', $e->getMessage(),
-                'Thrown exeception message is invalid.');
+            $this->assertSame(
+                'Failed to add cookie from offset 2',
+                $e->getMessage(),
+                'Thrown exeception message is invalid.'
+            );
 
-            $this->assertInstanceOf('\LogicException', $e->getPrevious(),
-                'Exception type inside thrown one is invalid.');
+            $this->assertInstanceOf(
+                '\LogicException',
+                $e->getPrevious(),
+                'Exception type inside thrown one is invalid.'
+            );
 
             return;
         }

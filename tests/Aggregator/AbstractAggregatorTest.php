@@ -37,8 +37,9 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->configuration = $this->getMockBuilder('\noFlash\TorrentGhost\Configuration\AggregatorAbstractConfiguration')
-            ->getMock();
+        $this->configuration = $this->getMockBuilder(
+            '\noFlash\TorrentGhost\Configuration\AggregatorAbstractConfiguration'
+        )->getMock();
         $this->logger = $this->getMockBuilder('\Psr\Log\LoggerInterface')->getMockForAbstractClass();
 
         $this->subjectUnderTest = new AbstractAggregator($this->configuration, $this->logger);
@@ -113,9 +114,9 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
 
     public function testNameIsExtractedAccordingToGivenPattern()
     {
-        $this->configuration->expects($this->atLeastOnce())
-            ->method('getNameExtractPattern')
-            ->willReturn('/^(.buntu\.x86-64\.NIGHTLY)/');
+        $this->configuration->expects($this->atLeastOnce())->method('getNameExtractPattern')->willReturn(
+            '/^(.buntu\.x86-64\.NIGHTLY)/'
+        );
 
         $testString = 'Xbuntu.x86-64.NIGHTLY.2015-10-22';
         $expectedResult = 'Xbuntu.x86-64.NIGHTLY';
@@ -149,12 +150,14 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
         $expectedInstanceName = $defaultType . '_' . $configurationName;
         $this->configuration->expects($this->any())->method('getName')->willReturn($configurationName);
 
-        $this->configuration->expects($this->atLeastOnce())
-            ->method('getNameExtractPattern')
-            ->willReturn('/invalid pattern#x');
+        $this->configuration->expects($this->atLeastOnce())->method('getNameExtractPattern')->willReturn(
+            '/invalid pattern#x'
+        );
 
-        $this->setExpectedException('\noFlash\TorrentGhost\Exception\RegexException',
-            'Pattern was configured for ' . $expectedInstanceName . ' aggregator to extract name');
+        $this->setExpectedException(
+            '\noFlash\TorrentGhost\Exception\RegexException',
+            'Pattern was configured for ' . $expectedInstanceName . ' aggregator to extract name'
+        );
         $this->subjectUnderTest->extractTitle('test');
     }
 
@@ -169,14 +172,16 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->configuration->expects($this->atLeastOnce())->method('getNameExtractPattern')->willReturn('/[0-9]+/');
 
-        $this->assertFalse($this->subjectUnderTest->extractTitle('There are 2 numbers in that string which one of them is 1'));
+        $this->assertFalse(
+            $this->subjectUnderTest->extractTitle('There are 2 numbers in that string which one of them is 1')
+        );
     }
 
     public function testLinkIsExtractedAccordingToGivenPattern()
     {
-        $this->configuration->expects($this->atLeastOnce())
-            ->method('getLinkExtractPattern')
-            ->willReturn('/^File\: (http\:.*?) /');
+        $this->configuration->expects($this->atLeastOnce())->method('getLinkExtractPattern')->willReturn(
+            '/^File\: (http\:.*?) /'
+        );
 
         $testString = 'File: http://example.com/file.bin | CRC32: 4020398583';
         $expectedResult = 'http://example.com/file.bin';
@@ -210,20 +215,22 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
         $expectedInstanceName = $defaultType . '_' . $configurationName;
         $this->configuration->expects($this->any())->method('getName')->willReturn($configurationName);
 
-        $this->configuration->expects($this->atLeastOnce())
-            ->method('getLinkExtractPattern')
-            ->willReturn('%derp pattern *yy');
+        $this->configuration->expects($this->atLeastOnce())->method('getLinkExtractPattern')->willReturn(
+            '%derp pattern *yy'
+        );
 
-        $this->setExpectedException('\noFlash\TorrentGhost\Exception\RegexException',
-            'Pattern was configured for ' . $expectedInstanceName . ' aggregator to extract link');
+        $this->setExpectedException(
+            '\noFlash\TorrentGhost\Exception\RegexException',
+            'Pattern was configured for ' . $expectedInstanceName . ' aggregator to extract link'
+        );
         $this->subjectUnderTest->extractLink('this is example string');
     }
 
     public function testIfLinkIsNotPresentInsideStringDuringExtractionFalseIsReturned()
     {
-        $this->configuration->expects($this->atLeastOnce())
-            ->method('getLinkExtractPattern')
-            ->willReturn('/(http.*?) /');
+        $this->configuration->expects($this->atLeastOnce())->method('getLinkExtractPattern')->willReturn(
+            '/(http.*?) /'
+        );
 
         $this->assertFalse($this->subjectUnderTest->extractLink('URL: ftp://example.tld/file.elif [NEW]'));
     }
@@ -239,9 +246,9 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->configuration->expects($this->any())->method('getLinkExtractPattern')->willReturn('/ (http\:.*?) /');
 
-        $this->configuration->expects($this->atLeastOnce())
-            ->method('getLinkTransformPattern')
-            ->willReturn(['/^(http\:)(.*?)$/', 'https:$2']);
+        $this->configuration->expects($this->atLeastOnce())->method('getLinkTransformPattern')->willReturn(
+            ['/^(http\:)(.*?)$/', 'https:$2']
+        );
 
         $testString = 'DL: http://example.tld/moew.cat | INT | NEW | TESTED/NGT';
         $expectedResult = 'https://example.tld/moew.cat';
@@ -260,8 +267,10 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
 
         $this->configuration->expects($this->atLeastOnce())->method('getLinkTransformPattern')->willReturn('^wtf /r');
 
-        $this->setExpectedException('\noFlash\TorrentGhost\Exception\RegexException',
-            'Pattern was configured for ' . $expectedInstanceName . ' aggregator to transform link');
+        $this->setExpectedException(
+            '\noFlash\TorrentGhost\Exception\RegexException',
+            'Pattern was configured for ' . $expectedInstanceName . ' aggregator to transform link'
+        );
         $this->subjectUnderTest->extractLink('this is example string');
     }
 }

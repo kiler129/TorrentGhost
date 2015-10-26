@@ -39,7 +39,9 @@ class TorrentGhostConfigurationTest extends \PHPUnit_Framework_TestCase
 
     public function testFilesSavePathAcceptsValidAbsoluteDirectoryPath()
     {
-        $exampleDirectory = realpath(sys_get_temp_dir()); //It cannot be mocked using e.g. vfs sine SUT will try to extract realpath. I know it's bad assumption for that test but it's sad reality.
+        $exampleDirectory = realpath(
+            sys_get_temp_dir()
+        ); //It cannot be mocked using e.g. vfs sine SUT will try to extract realpath. I know it's bad assumption for that test but it's sad reality.
 
         $this->subjectUnderTest->setFilesSavePath($exampleDirectory);
         $this->assertSame($exampleDirectory, $this->subjectUnderTest->getFilesSavePath());
@@ -86,8 +88,11 @@ class TorrentGhostConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(500 * 1000 * 1000, $this->subjectUnderTest->getRawFileSizeLimit(), 'Failed for 500MB');
 
         $this->subjectUnderTest->setRawFileSizeLimit((int)(1.5 * 1000 * 1000 * 1000));
-        $this->assertEquals(1.5 * 1000 * 1000 * 1000, $this->subjectUnderTest->getRawFileSizeLimit(),
-            'Failed for 1.5GB');
+        $this->assertEquals(
+            1.5 * 1000 * 1000 * 1000,
+            $this->subjectUnderTest->getRawFileSizeLimit(),
+            'Failed for 1.5GB'
+        );
 
         $this->subjectUnderTest->setRawFileSizeLimit(2 * 1000 * 1000 * 1000);
         $this->assertSame(2 * 1000 * 1000 * 1000, $this->subjectUnderTest->getRawFileSizeLimit(), 'Failed for 2GB');
@@ -229,7 +234,9 @@ class TorrentGhostConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->subjectUnderTest->isValid(), 'Configuration should not be valid for fresh object');
         $this->subjectUnderTest->setFilesSavePath(sys_get_temp_dir());
-        $this->assertTrue($this->subjectUnderTest->isValid(),
-            'Configuration should be valid after setting files save path');
+        $this->assertTrue(
+            $this->subjectUnderTest->isValid(),
+            'Configuration should be valid after setting files save path'
+        );
     }
 }

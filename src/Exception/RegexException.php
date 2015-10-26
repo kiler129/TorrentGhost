@@ -24,18 +24,18 @@ class RegexException extends \RuntimeException
      * @var array Maps PREG_* codes to human-readable strings
      */
     private $pregErrors = [
-        PREG_INTERNAL_ERROR => 'internal error',
+        PREG_INTERNAL_ERROR        => 'internal error',
         PREG_BACKTRACK_LIMIT_ERROR => 'backtrack limit exceeded',
         PREG_RECURSION_LIMIT_ERROR => 'recursion limit exceeded',
-        PREG_BAD_UTF8_ERROR => 'invalid UTF-8 sequence',
+        PREG_BAD_UTF8_ERROR        => 'invalid UTF-8 sequence',
         PREG_BAD_UTF8_OFFSET_ERROR => 'invalid UTF-8 offset'
     ];
 
     /**
      * Construct the exception. Note: The message is NOT binary safe.
      *
-     * @param string $message Description where regex error occurred.
-     * @param string $regex Pattern which caused error.
+     * @param string    $message  Description where regex error occurred.
+     * @param string    $regex    Pattern which caused error.
      * @param Exception $previous [optional] The previous exception used for the exception chaining. Since 5.3.0
      */
     public function __construct($message, $regex, Exception $previous = null)

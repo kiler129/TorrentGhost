@@ -20,12 +20,17 @@ class AggregatorAbstractConfigurationTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->subjectUnderTest = $this->getMockForAbstractClass('\noFlash\TorrentGhost\Configuration\AggregatorAbstractConfiguration');
+        $this->subjectUnderTest = $this->getMockForAbstractClass(
+            '\noFlash\TorrentGhost\Configuration\AggregatorAbstractConfiguration'
+        );
     }
 
     public function testClassImplementsNameAwareConfigurationInterface()
     {
-        $this->assertInstanceOf('\noFlash\TorrentGhost\Configuration\NameAwareConfigurationInterface', $this->subjectUnderTest);
+        $this->assertInstanceOf(
+            '\noFlash\TorrentGhost\Configuration\NameAwareConfigurationInterface',
+            $this->subjectUnderTest
+        );
     }
 
     public function testClassUsesNamedConfigurationTrait()
