@@ -11,3 +11,13 @@ ratings:
     - "**.inc"
 exclude_paths:
   - tests/*
+  - doc/*
+  - "*.yml"
+  - "*.json"
+  - "composer.lock"
+  - ".gitattributes"
+  - ".gitignore"
+  - "LICENSE"
+  - "README.md"
+  - "phpunit.xml.dist"
+
