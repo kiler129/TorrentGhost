@@ -12,10 +12,10 @@
 
 namespace noFlash\TorrentGhost\Rule;
 
-
 use noFlash\TorrentGhost\Aggregator\AggregatorInterface;
 use noFlash\TorrentGhost\Configuration\NameAwareConfigurationInterface;
 use noFlash\TorrentGhost\Exception\InvalidSourceException;
+use noFlash\TorrentGhost\Exception\RegexException;
 
 /**
  * Interface is used for objects which defines download rules.
@@ -42,12 +42,12 @@ interface RuleInterface extends NameAwareConfigurationInterface
     /**
      * Removes previously added source (aggregator) to current rule.
      *
-     * @param AggregatorInterface &$aggregator
+     * @param AggregatorInterface $aggregator
      *
      * @return bool
      * @throws InvalidSourceException Thrown if source doesn't exist in current source.
      */
-    public function removeSource(AggregatorInterface &$aggregator);
+    public function removeSource(AggregatorInterface $aggregator);
 
     /**
      * Check if this rule uses source provided.
@@ -66,9 +66,29 @@ interface RuleInterface extends NameAwareConfigurationInterface
     public function getNameContainsPattern();
 
     /**
+     * Sets regex which name need to match to be considered matching whole rule.
+     *
+     * @param string|null $nameContainsPattern Any valid regex. First group will be used while matching. Null if
+     *                                         there's no rule that should name match.
+     *
+     * @throws RegexException
+     */
+    public function setNameContainsPattern($nameContainsPattern);
+
+    /**
      * Provides regex which name must not match to be considered matching whole rule.
      *
      * @return string|null Preg pattern or null if there's no rule for matching name.
      */
     public function getNameNotContainsPattern();
+
+    /**
+     * Sets regex which name need must not match to be considered matching whole rule.
+     *
+     * @param string|null $nameNotContainsPattern Any valid regex. First group will be used while matching. Null if
+     *                                            there's no rule that should not name match.
+     *
+     * @throws RegexException
+     */
+    public function setNameNotContainsPattern($nameNotContainsPattern);
 }
