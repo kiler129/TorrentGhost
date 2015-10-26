@@ -44,3 +44,5 @@ downloadRules:
     nameContainsPattern: '/ubuntu/i'
     nameNotContainsPattern: '/book|video/i'
     filesSavePath: /home/torrents/incomming/ubuntu/
+    runOnMatch: /usr/bin/app %ruleName %sourceName %matchedName %fileName %filePath
+    disableAfterMatch: true
