@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Configuration;
 
-
 use noFlash\TorrentGhost\Exception\RegexException;
 use noFlash\TorrentGhost\Http\CookiesBag;
 

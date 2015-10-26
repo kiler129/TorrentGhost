@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Exception;
 
-
 /**
  * This exception is used by all rules to denote source cannot be removed because already exists or removed because it
  * was not added before.

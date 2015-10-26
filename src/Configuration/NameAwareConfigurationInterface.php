@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Configuration;
 
-
 /**
  * Provides interface to use along with ConfigurationInterface to denote extended configuration which contains element
  * name.

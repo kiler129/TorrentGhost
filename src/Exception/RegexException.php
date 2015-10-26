@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Exception;
 
-
 use Exception;
 
 /**

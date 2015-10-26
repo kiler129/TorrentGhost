@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Test\Configuration;
 
-
 use noFlash\TorrentGhost\Configuration\RssAggregatorConfiguration;
 
 class RssAggregatorConfigurationTest extends \PHPUnit_Framework_TestCase

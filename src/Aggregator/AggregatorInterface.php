@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Aggregator;
 
-
 /**
  * Specified generic interface for each aggregator to communicate with core.
  */

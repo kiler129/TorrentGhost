@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Configuration;
 
-
 trait NamedConfigurationTrait
 {
     /**

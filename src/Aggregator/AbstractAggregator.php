@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Aggregator;
 
-
 use noFlash\TorrentGhost\Configuration\AggregatorAbstractConfiguration;
 use noFlash\TorrentGhost\Exception\RegexException;
 use Psr\Log\LoggerInterface;

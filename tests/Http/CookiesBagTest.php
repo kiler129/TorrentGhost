@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Test\Http;
 
-
 use noFlash\TorrentGhost\Http\CookiesBag;
 
 class CookiesBagTest extends \PHPUnit_Framework_TestCase

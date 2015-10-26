@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Configuration;
 
-
 /**
  * Common interface for all configuration DTOs.
  */

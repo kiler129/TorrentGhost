@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Test\Exception;
 
-
 use noFlash\TorrentGhost\Exception\RegexException;
 
 class RegexExceptionTest extends \PHPUnit_Framework_TestCase

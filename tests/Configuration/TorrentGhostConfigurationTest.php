@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Test\Configuration;
 
-
 use noFlash\TorrentGhost\Configuration\TorrentGhostConfiguration;
 
 class TorrentGhostConfigurationTest extends \PHPUnit_Framework_TestCase

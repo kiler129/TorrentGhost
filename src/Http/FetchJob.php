@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Http;
 
-
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
 use noFlash\TorrentGhost\Configuration\TorrentGhostConfiguration;

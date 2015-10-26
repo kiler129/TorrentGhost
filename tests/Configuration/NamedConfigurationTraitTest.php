@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Test\Configuration;
 
-
 use noFlash\TorrentGhost\Configuration\NamedConfigurationTrait;
 
 class NamedConfigurationTraitTest extends \PHPUnit_Framework_TestCase

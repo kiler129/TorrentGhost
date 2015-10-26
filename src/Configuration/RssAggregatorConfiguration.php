@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Configuration;
 
-
 /**
  * Class holding configuration for
  */

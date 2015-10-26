@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Test\Configuration;
 
-
 class AggregatorAbstractConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \noFlash\TorrentGhost\Configuration\AggregatorAbstractConfiguration */

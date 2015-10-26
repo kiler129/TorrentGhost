@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Test\Aggregator;
 
-
 use noFlash\TorrentGhost\Aggregator\AbstractAggregator;
 use noFlash\TorrentGhost\Aggregator\AggregatorInterface;
 use noFlash\TorrentGhost\Configuration\AggregatorAbstractConfiguration;
