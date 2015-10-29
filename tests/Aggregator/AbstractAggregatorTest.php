@@ -15,14 +15,20 @@ namespace noFlash\TorrentGhost\Test\Aggregator;
 use noFlash\TorrentGhost\Aggregator\AbstractAggregator;
 use noFlash\TorrentGhost\Aggregator\AggregatorInterface;
 use noFlash\TorrentGhost\Configuration\AggregatorAbstractConfiguration;
+use noFlash\TorrentGhost\Configuration\TorrentGhostConfiguration;
 use Psr\Log\LoggerInterface;
 
 class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var TorrentGhostConfiguration|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $appConfiguration;
+
+    /**
      * @var AggregatorAbstractConfiguration|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $configuration;
+    private $aggregatorConfiguration;
 
     /**
      * @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -36,12 +42,21 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->configuration = $this->getMockBuilder(
+        $this->appConfiguration = $this->getMockBuilder(
+            '\noFlash\TorrentGhost\Configuration\TorrentGhostConfiguration'
+        )->getMock();
+
+        $this->aggregatorConfiguration = $this->getMockBuilder(
             '\noFlash\TorrentGhost\Configuration\AggregatorAbstractConfiguration'
         )->getMock();
+
         $this->logger = $this->getMockBuilder('\Psr\Log\LoggerInterface')->getMockForAbstractClass();
 
-        $this->subjectUnderTest = new AbstractAggregator($this->configuration, $this->logger);
+        $this->subjectUnderTest = new AbstractAggregator(
+            $this->appConfiguration,
+            $this->aggregatorConfiguration,
+            $this->logger
+        );
     }
 
     public function testClassImplementsConfigurationInterface()
@@ -65,20 +80,22 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
         $configurationName = md5(rand()); //Some random name, can be anything
         $expectedInstanceName = $defaultType . '_' . $configurationName;
 
-        $this->configuration->expects($this->atLeastOnce())->method('getName')->willReturn($configurationName);
+        $this->aggregatorConfiguration->expects($this->atLeastOnce())->method('getName')->willReturn(
+            $configurationName
+        );
 
         $this->assertSame($expectedInstanceName, $this->subjectUnderTest->getName());
     }
 
     public function testAggregatorIsConsideredReadyIfConfigurationIsValid()
     {
-        $this->configuration->expects($this->atLeastOnce())->method('isValid')->willReturn(false);
+        $this->aggregatorConfiguration->expects($this->atLeastOnce())->method('isValid')->willReturn(false);
         $this->assertFalse($this->subjectUnderTest->isReady());
     }
 
     public function testAggregatorIsNotConsideredReadyIfConfigurationIsNotValid()
     {
-        $this->configuration->expects($this->atLeastOnce())->method('isValid')->willReturn(false);
+        $this->aggregatorConfiguration->expects($this->atLeastOnce())->method('isValid')->willReturn(false);
         $this->assertFalse($this->subjectUnderTest->isReady());
     }
 
@@ -113,7 +130,7 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
 
     public function testNameIsExtractedAccordingToGivenPattern()
     {
-        $this->configuration->expects($this->atLeastOnce())->method('getNameExtractPattern')->willReturn(
+        $this->aggregatorConfiguration->expects($this->atLeastOnce())->method('getNameExtractPattern')->willReturn(
             '/^(.buntu\.x86-64\.NIGHTLY)/'
         );
 
@@ -128,10 +145,12 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
         $defaultType = AggregatorInterface::TYPE;
         $configurationName = md5(rand()); //Some random name, can be anything
         $expectedInstanceName = $defaultType . '_' . $configurationName;
-        $this->configuration->expects($this->any())->method('getName')->willReturn($configurationName);
+        $this->aggregatorConfiguration->expects($this->any())->method('getName')->willReturn($configurationName);
 
         $pattern = '/(DerpBian)\.ARM\.(DEV)$/';
-        $this->configuration->expects($this->atLeastOnce())->method('getNameExtractPattern')->willReturn($pattern);
+        $this->aggregatorConfiguration->expects($this->atLeastOnce())->method('getNameExtractPattern')->willReturn(
+            $pattern
+        );
 
 
         $testString = 'MoewDerpBian.ARM.DEV';
@@ -147,9 +166,9 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
         $defaultType = AggregatorInterface::TYPE;
         $configurationName = md5(rand()); //Some random name, can be anything
         $expectedInstanceName = $defaultType . '_' . $configurationName;
-        $this->configuration->expects($this->any())->method('getName')->willReturn($configurationName);
+        $this->aggregatorConfiguration->expects($this->any())->method('getName')->willReturn($configurationName);
 
-        $this->configuration->expects($this->atLeastOnce())->method('getNameExtractPattern')->willReturn(
+        $this->aggregatorConfiguration->expects($this->atLeastOnce())->method('getNameExtractPattern')->willReturn(
             '/invalid pattern#x'
         );
 
@@ -162,14 +181,18 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
 
     public function testIfTitleIsNotPresentInsideStringDuringExtractionFalseIsReturned()
     {
-        $this->configuration->expects($this->atLeastOnce())->method('getNameExtractPattern')->willReturn('/([0-9]+)/');
+        $this->aggregatorConfiguration->expects($this->atLeastOnce())->method('getNameExtractPattern')->willReturn(
+            '/([0-9]+)/'
+        );
 
         $this->assertFalse($this->subjectUnderTest->extractTitle('There is no numbers in this string'));
     }
 
     public function testIfTitlePatternMatchedButDidNotReturnedAnyResultsDuringExtractionFalseIsReturned()
     {
-        $this->configuration->expects($this->atLeastOnce())->method('getNameExtractPattern')->willReturn('/[0-9]+/');
+        $this->aggregatorConfiguration->expects($this->atLeastOnce())->method('getNameExtractPattern')->willReturn(
+            '/[0-9]+/'
+        );
 
         $this->assertFalse(
             $this->subjectUnderTest->extractTitle('There are 2 numbers in that string which one of them is 1')
@@ -178,7 +201,7 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
 
     public function testLinkIsExtractedAccordingToGivenPattern()
     {
-        $this->configuration->expects($this->atLeastOnce())->method('getLinkExtractPattern')->willReturn(
+        $this->aggregatorConfiguration->expects($this->atLeastOnce())->method('getLinkExtractPattern')->willReturn(
             '/^File\: (http\:.*?) /'
         );
 
@@ -193,10 +216,12 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
         $defaultType = AggregatorInterface::TYPE;
         $configurationName = md5(rand()); //Some random name, can be anything
         $expectedInstanceName = $defaultType . '_' . $configurationName;
-        $this->configuration->expects($this->any())->method('getName')->willReturn($configurationName);
+        $this->aggregatorConfiguration->expects($this->any())->method('getName')->willReturn($configurationName);
 
         $pattern = '/^File\: (http\:.*?) \| (CRC32)\: (.*?)/';
-        $this->configuration->expects($this->atLeastOnce())->method('getLinkExtractPattern')->willReturn($pattern);
+        $this->aggregatorConfiguration->expects($this->atLeastOnce())->method('getLinkExtractPattern')->willReturn(
+            $pattern
+        );
 
 
         $testString = 'File: http://example.org/moew.file | CRC32: 2001201454';
@@ -212,9 +237,9 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
         $defaultType = AggregatorInterface::TYPE;
         $configurationName = md5(rand()); //Some random name, can be anything
         $expectedInstanceName = $defaultType . '_' . $configurationName;
-        $this->configuration->expects($this->any())->method('getName')->willReturn($configurationName);
+        $this->aggregatorConfiguration->expects($this->any())->method('getName')->willReturn($configurationName);
 
-        $this->configuration->expects($this->atLeastOnce())->method('getLinkExtractPattern')->willReturn(
+        $this->aggregatorConfiguration->expects($this->atLeastOnce())->method('getLinkExtractPattern')->willReturn(
             '%derp pattern *yy'
         );
 
@@ -227,7 +252,7 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
 
     public function testIfLinkIsNotPresentInsideStringDuringExtractionFalseIsReturned()
     {
-        $this->configuration->expects($this->atLeastOnce())->method('getLinkExtractPattern')->willReturn(
+        $this->aggregatorConfiguration->expects($this->atLeastOnce())->method('getLinkExtractPattern')->willReturn(
             '/(http.*?) /'
         );
 
@@ -236,16 +261,20 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
 
     public function testIfLinkPatternMatchedButDidNotReturnedAnyResultsDuringExtractionFalseIsReturned()
     {
-        $this->configuration->expects($this->atLeastOnce())->method('getLinkExtractPattern')->willReturn('/[a-f]+/');
+        $this->aggregatorConfiguration->expects($this->atLeastOnce())->method('getLinkExtractPattern')->willReturn(
+            '/[a-f]+/'
+        );
 
         $this->assertFalse($this->subjectUnderTest->extractLink('For sure there\'re some a and f\'s in this string'));
     }
 
     public function testLinkIsTransformedAccordingToGivenPattern()
     {
-        $this->configuration->expects($this->any())->method('getLinkExtractPattern')->willReturn('/ (http\:.*?) /');
+        $this->aggregatorConfiguration->expects($this->any())->method('getLinkExtractPattern')->willReturn(
+            '/ (http\:.*?) /'
+        );
 
-        $this->configuration->expects($this->atLeastOnce())->method('getLinkTransformPattern')->willReturn(
+        $this->aggregatorConfiguration->expects($this->atLeastOnce())->method('getLinkTransformPattern')->willReturn(
             ['/^(http\:)(.*?)$/', 'https:$2']
         );
 
@@ -260,11 +289,13 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
         $defaultType = AggregatorInterface::TYPE;
         $configurationName = md5(rand()); //Some random name, can be anything
         $expectedInstanceName = $defaultType . '_' . $configurationName;
-        $this->configuration->expects($this->any())->method('getName')->willReturn($configurationName);
+        $this->aggregatorConfiguration->expects($this->any())->method('getName')->willReturn($configurationName);
 
-        $this->configuration->expects($this->any())->method('getLinkExtractPattern')->willReturn('/(.+)/');
+        $this->aggregatorConfiguration->expects($this->any())->method('getLinkExtractPattern')->willReturn('/(.+)/');
 
-        $this->configuration->expects($this->atLeastOnce())->method('getLinkTransformPattern')->willReturn('^wtf /r');
+        $this->aggregatorConfiguration->expects($this->atLeastOnce())->method('getLinkTransformPattern')->willReturn(
+            '^wtf /r'
+        );
 
         $this->setExpectedException(
             '\noFlash\TorrentGhost\Exception\RegexException',

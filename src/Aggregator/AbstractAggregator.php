@@ -13,6 +13,7 @@
 namespace noFlash\TorrentGhost\Aggregator;
 
 use noFlash\TorrentGhost\Configuration\AggregatorAbstractConfiguration;
+use noFlash\TorrentGhost\Configuration\TorrentGhostConfiguration;
 use noFlash\TorrentGhost\Exception\RegexException;
 use Psr\Log\LoggerInterface;
 
@@ -21,6 +22,11 @@ use Psr\Log\LoggerInterface;
  */
 class AbstractAggregator implements AggregatorInterface
 {
+    /**
+     * @var TorrentGhostConfiguration
+     */
+    protected $appConfiguration;
+
     /**
      * @var AggregatorAbstractConfiguration
      */
@@ -31,14 +37,20 @@ class AbstractAggregator implements AggregatorInterface
      */
     protected $logger;
 
+
     /**
      * AbstractAggregator constructor.
      *
+     * @param TorrentGhostConfiguration       $appConfiguration
      * @param AggregatorAbstractConfiguration $configuration
      * @param LoggerInterface                 $logger
      */
-    public function __construct(AggregatorAbstractConfiguration $configuration, LoggerInterface $logger)
+    public function __construct(
+        TorrentGhostConfiguration $appConfiguration,
+        AggregatorAbstractConfiguration $configuration,
+        LoggerInterface $logger)
     {
+        $this->appConfiguration = $appConfiguration;
         $this->configuration = $configuration;
         $this->logger = $logger;
     }
