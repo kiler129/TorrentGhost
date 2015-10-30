@@ -33,7 +33,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "noFlash\\TorrentGhost\\Test\\": "src/"
+      "noFlash\\TorrentGhost\\Test\\": "tests/"
     }
   },
   "extra": {
