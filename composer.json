@@ -24,7 +24,8 @@
     "guzzlehttp/psr7": "~1.0@dev"
   },
   "require-dev": {
-    "phpunit/phpunit": "~4.8.14"
+    "phpunit/phpunit": "~4.8.14",
+    "codeclimate/php-test-reporter": "dev-master"
   },
   "autoload": {
     "psr-4": {
