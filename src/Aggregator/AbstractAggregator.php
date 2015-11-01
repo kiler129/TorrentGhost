@@ -20,7 +20,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Class AbstractAggregator
  */
-class AbstractAggregator implements AggregatorInterface
+abstract class AbstractAggregator implements AggregatorInterface
 {
     /**
      * @var TorrentGhostConfiguration

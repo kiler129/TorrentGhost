@@ -52,11 +52,23 @@ class AbstractAggregatorTest extends \PHPUnit_Framework_TestCase
 
         $this->logger = $this->getMockBuilder('\Psr\Log\LoggerInterface')->getMockForAbstractClass();
 
-        $this->subjectUnderTest = new AbstractAggregator(
-            $this->appConfiguration,
-            $this->aggregatorConfiguration,
-            $this->logger
+        $this->subjectUnderTest = $this->getMockBuilder('noFlash\TorrentGhost\Aggregator\AbstractAggregator');
+        $this->subjectUnderTest->setConstructorArgs(
+            [
+                $this->appConfiguration,
+                $this->aggregatorConfiguration,
+                $this->logger
+            ]
         );
+        $this->subjectUnderTest->enableOriginalConstructor();
+        $this->subjectUnderTest->enableProxyingToOriginalMethods();
+        $this->subjectUnderTest = $this->subjectUnderTest->getMockForAbstractClass();
+    }
+
+    public function testClassIsDefinedAbstract()
+    {
+        $classReflection = new \ReflectionClass('noFlash\TorrentGhost\Aggregator\AbstractAggregator');
+        $this->assertTrue($classReflection->isAbstract());
     }
 
     public function testClassImplementsConfigurationInterface()
