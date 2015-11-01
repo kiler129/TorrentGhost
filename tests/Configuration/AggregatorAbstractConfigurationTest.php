@@ -24,6 +24,12 @@ class AggregatorAbstractConfigurationTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testClassIsDefinedAbstract()
+    {
+        $classReflection = new \ReflectionClass('\noFlash\TorrentGhost\Configuration\AggregatorAbstractConfiguration');
+        $this->assertTrue($classReflection->isAbstract());
+    }
+
     public function testClassImplementsNameAwareConfigurationInterface()
     {
         $this->assertInstanceOf(
