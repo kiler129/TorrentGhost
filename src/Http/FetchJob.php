@@ -21,6 +21,8 @@ use Psr\Http\Message\ResponseInterface;
 
 /**
  * Represents file download job executed for each torrent
+ *
+ * @todo Implement file size limit for real ;)
  */
 class FetchJob
 {
