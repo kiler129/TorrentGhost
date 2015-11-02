@@ -39,7 +39,7 @@ class RssAggregator extends AbstractAggregator
     /**
      * @var int Unix timestamp where RSS was downloaded last time
      */
-    private $lastSuccessfulDownload = PHP_INT_MIN;
+    private $lastSuccessfulDownload = -1;
 
     /**
      * @var Blacklist
