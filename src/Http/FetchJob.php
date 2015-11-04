@@ -74,7 +74,9 @@ class FetchJob
     public function execute()
     {
         $this->response = null;
-        if ($this->responseStream === null) { //Ttemporary stream need to be created
+        if ($this->responseStream === null ||
+            !is_resource($this->responseStream)
+        ) { //Temporary stream need to be created
             $this->responseStream = @fopen('php://temp/maxmemory:8388608', 'w'); //up to 8MiB is kept in memory
 
             if ($this->responseStream === false) {
@@ -83,7 +85,6 @@ class FetchJob
         }
 
         $this->prepareCUrl();
-
 
         if (curl_exec($this->cUrl) === false) {
             throw new \RuntimeException('Job failed with error: ' . curl_error($this->cUrl));
@@ -104,13 +105,19 @@ class FetchJob
     private function prepareCUrl()
     {
         $this->cUrl = curl_init((string)$this->fetchRequest->getUri());
+        if ($this->cUrl === false) {
+            throw new \RuntimeException('Failed to initialize cURL - internal error');
+        }
 
-        $schemeType = substr($this->fetchRequest->getUri()->getScheme(), 0, 3);
+        $schemeType = substr($this->fetchRequest->getUri()->getScheme(), 0, 4);
         if ($schemeType === 'http') {
             $this->prepareHttpCUrl();
 
-        } elseif ($schemeType !== 'ftp') {
-            throw new \RuntimeException('Your request uses unknown scheme (other than http/https/ftp/ftps)');
+        } elseif ($schemeType !== 'ftp' && $schemeType !== 'ftps') {
+            throw new \RuntimeException(
+                'Your request uses unknown scheme ' . $this->fetchRequest->getUri()->getScheme() .
+                ' (available schemes: http/https/ftp/ftps)'
+            );
         }
 
         curl_setopt_array(
@@ -138,7 +145,7 @@ class FetchJob
     private function prepareHttpCUrl()
     {
         if ($this->fetchRequest->getMethod() !== 'GET') {
-            throw new UnsupportedFeatureException('POST request are not supported');
+            throw new UnsupportedFeatureException('Request other than GET are not supported');
         }
 
         $headers = [];
@@ -214,6 +221,8 @@ class FetchJob
      */
     public function __destruct()
     {
-        curl_close($this->cUrl);
+        if (is_resource($this->cUrl)) {
+            curl_close($this->cUrl);
+        }
     }
 }
