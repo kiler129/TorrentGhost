@@ -21,7 +21,8 @@
     "lib-curl": "*",
     "noflash/shout": "~1.0@dev",
     "symfony/yaml": "~2.7.5",
-    "guzzlehttp/psr7": "~1.0@dev"
+    "guzzlehttp/psr7": "~1.0@dev",
+    "php-mock/php-mock-phpunit": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "~4.8.14",
