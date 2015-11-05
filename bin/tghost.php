@@ -1,0 +1,38 @@
+#!/usr/bin/env php
+<?php
+/*
+ * This file is part of TorrentGhost project.
+ * You are using it at your own risk and you are fully responsible
+ *  for everything that code will do.
+ *
+ * (c) Grzegorz Zdanowski <grzegorz@noflash.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+use noFlash\TorrentGhost\Console\Application;
+
+error_reporting(-1);
+
+if (PHP_SAPI !== 'cli') {
+    echo "Warning: TorrentGhost should be run using CLI version of PHP, not the " . PHP_SAPI .
+         " SAPI.\nUnexpected behaviours may occur.\n";
+    exit(1);
+}
+
+if (version_compare(PHP_VERSION, '5.4.0', '<')) { //It will be effective for PHP 5.3.0 and up due to namespace
+    echo 'TorrentGhost require PHP 5.4.0 or newer (currently running ' . PHP_VERSION . ")\n";
+    exit(126);
+}
+
+if (!file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    echo "TorrentGhost is missing dependencies. Probably you have downloaded project from repository instead of " .
+         "installing it via composer.\nTo fix that run \"composer install\" inside main project directory.\n";
+    exit(1);
+}
+
+require_once(__DIR__ . '/../vendor/autoload.php');
+
+$console = new Application();
+$console->run();
