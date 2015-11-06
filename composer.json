@@ -39,6 +39,18 @@
       "noFlash\\TorrentGhost\\Test\\": "tests/"
     }
   },
+  "bin": [
+    "bin/tghost"
+  ],
+  "archive": {
+    "exclude": [
+      "/tests",
+      ".*",
+      "/doc",
+      "phpunit.xml.dist",
+      "README.md"
+    ]
+  },
   "extra": {
     "branch-alias": {
       "dev-master": "1.0.x-dev"
