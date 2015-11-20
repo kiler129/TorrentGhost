@@ -12,94 +12,101 @@
 
 namespace noFlash\TorrentGhost\Command;
 
-use noFlash\TorrentGhost\Aggregator\AggregatorInterface;
+use noFlash\Shout\Shout;
+use noFlash\TorrentGhost\Application;
+use noFlash\TorrentGhost\Configuration\ConfigurationProvider;
+use noFlash\TorrentGhost\Console\ConsoleApplication;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Console\Command\Command;
-use noFlash\TorrentGhost\Configuration\TorrentGhostConfiguration;
-use noFlash\TorrentGhost\Rule\RuleInterface;
+use Psr\Log\NullLogger;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class RunCommand extends Command
+/**
+ * Starts TorrentGhost application
+ */
+class RunCommand extends AppCommand
 {
     /**
-     * @var LoggerInterface
+     * @inheritDoc
      */
-    private $logger;
+    protected function configure()
+    {
+        //@formatter:off
+        $this
+            ->setName('run')
+            ->setDescription('Runs the application');
+        //@formatter:on
 
-    /**
-     * @var TorrentGhostConfiguration
-     */
-    private $appConfiguration;
-
-    /**
-     * @var AggregatorInterface[]
-     */
-    private $aggregators = [];
-
-    /**
-     * @var RuleInterface[]
-     */
-    private $downloadRules = [];
-
-    /**
-     * @var int|null Every aggregator can specify time interval for pinging it. This value represents calculated value
-     *               for every aggregators (using GCD algorithm).
-     *               It can be null if every aggregator decide to not specify any interval.
-     */
-    private $mainLoopInterval = null;
+        parent::configure();
+    }
 
     /**
      * @inheritDoc
      */
-    public function __construct(LoggerInterface $logger)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->logger = $logger;
-        $this->logger->debug('Initializing ' . __CLASS__);
+        $logger = $this->getLogger(); //If it crash here it will just crash without fancy-pancy error message, sorry!
+        $logger->info('Starting ' . ConsoleApplication::NAME . ' v' . ConsoleApplication::VERSION);
 
-        parent::__construct(null);
+        try {
+            //TODO handle POSIX signal to reload config (and these two lines should be than extracted to method)
+            $configurationProvider = ConfigurationProvider::fromYamlFile($input->getOption('config'), $logger);
+            $application = new Application($configurationProvider, $logger);
+            $application->run();
+
+        } catch (\Exception $e) {
+            $logger->emergency($this->getClassNameFromObject($e) . ': ' . $e->getMessage());
+
+            return self::POSIX_EXIT_ERROR;
+        }
+
+        $logger->info(ConsoleApplication::NAME . ' finished');
+        return self::POSIX_EXIT_OK;
     }
 
     /**
-     * @internal
+     * Configures logger under
+     *
+     * @param string $destination
+     * @param int    $verbosityLevel
+     *
+     * @return LoggerInterface
+     * @throws \Psr\Log\InvalidArgumentException
      */
-    public function recalculateMainLoopInterval()
+    private function getLogger($destination = 'php://stdout', $verbosityLevel = PHP_INT_MAX)
     {
-        $times = [];
-        foreach ($this->aggregators as $aggregator) {
-            $pingInterval = $aggregator->getPingInterval();
-            if ($pingInterval < 1) {
-                $this->logger->warning(
-                    'Aggregator ' . $aggregator->getName() .
-                    " returned invalid interval ($pingInterval), ignoring (but it need to be reported as bug!)"
-                );
-            } elseif ($pingInterval !== AggregatorInterface::NO_PING_INTERVAL) {
-                $times[] = $pingInterval;
-            }
+        if ($verbosityLevel === OutputInterface::VERBOSITY_QUIET) {
+            return new NullLogger();
         }
 
-        if (empty($times)) {
-            $this->logger->debug(
-                'Calculation of main loop interval abandoned - no aggregators returned numeric interval'
-            );
-            $this->mainLoopInterval = null;
+        $logger = new Shout($destination, Shout::FILE_APPEND); //By default Shout outputs every log message
 
-            return;
+        if ($verbosityLevel < OutputInterface::VERBOSITY_VERBOSE) {
+            $logger->setMaximumLogLevel(6);
         }
 
-        //If anyone forget basic math this is a Euclid algorithm
-        // https://en.wikipedia.org/wiki/Greatest_common_divisor#Using_Euclid.27s_algorithm
-        static $gcd = function ($a, $b) use (&$gcd) {
-            return ($b == 0) ? $a : $gcd($b, $a % $b);
-        };
-        $this->mainLoopInterval = array_reduce($times, $gcd, $times[0]);
-
-        $this->logger->debug("Calculated main loop interval of {$this->mainLoopInterval}s");
+        return $logger;
     }
 
     /**
-     * @return int|null
+     * Gets class name (without namespace if present) for given object.
+     *
+     * @param object $object
+     *
+     * @return string
+     * @throws \LogicException In case you pass something other than object stupid :P
      */
-    public function getMainLoopInterval()
+    private function getClassNameFromObject($object)
     {
-        return $this->mainLoopInterval;
+        if (!is_object($object)) {
+            throw new \LogicException('Non-object passed - failed to extract its name');
+        }
+
+        $objectName = get_class($object);
+
+        $namespacePosition = strrpos($objectName, '\\');
+
+        return ($namespacePosition === false) ? $objectName : substr($objectName, $namespacePosition + 1);
     }
 }
