@@ -16,7 +16,6 @@ use noFlash\TorrentGhost\Command\AboutCommand;
 use noFlash\TorrentGhost\Command\RunCommand;
 use noFlash\TorrentGhost\Command\TestConfigurationCommand;
 use noFlash\TorrentGhost\Command\TestRuleCommand;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application as SymfonyApplication;
 
 /**
@@ -35,9 +34,10 @@ class Application extends SymfonyApplication
     const VERSION = '1.0.0-dev';
 
     /**
-     * @var LoggerInterface
+     * Default configuration file location
+     * Path may be relative to root directory
      */
-    private $logger;
+    const DEFAULT_CONFIG_FILE = './config.yml';
 
     /**
      * @inheritDoc
@@ -60,28 +60,11 @@ class Application extends SymfonyApplication
     /**
      * @inheritdoc
      */
-    public function renderException($e, $output)
-    {
-        if ($this->logger === null) { //No logger initialized - must be very low-level exception during it's init.
-            parent::renderException($e, $output);
-
-            return;
-        }
-
-        $this->logger->critical('Unhandled exception occurred: ' . $e->getMessage(), ['exception' => $e]);
-
-        $this->logger->info('Application terminated');
-        exit(1);
-    }
-
-    /**
-     * @inheritdoc
-     */
     protected function getDefaultCommands()
     {
         $commands = parent::getDefaultCommands();
         $commands[] = new AboutCommand();
-        $commands[] = new RunCommand($this->logger);
+        $commands[] = new RunCommand();
         $commands[] = new TestConfigurationCommand();
         $commands[] = new TestRuleCommand();
 
