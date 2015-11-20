@@ -14,7 +14,22 @@ namespace noFlash\TorrentGhost\Command;
 
 use Symfony\Component\Console\Command\Command;
 
-class TestConfigurationCommand extends Command
+/**
+ * Verifies configuration for logic error
+ */
+class TestConfigurationCommand extends AppCommand
 {
+    /**
+     * @inheritDoc
+     */
+    protected function configure()
+    {
+        //@formatter:off
+        $this
+            ->setName('test-config')
+            ->setDescription('Tests application configuration');
+        //@formatter:on
 
+        parent::configure();
+    }
 }
