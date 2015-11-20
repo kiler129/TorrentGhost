@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Provides some information about the project.
  */
-class AboutCommand extends Command
+class AboutCommand extends AppCommand
 {
     /**
      * @inheritDoc
