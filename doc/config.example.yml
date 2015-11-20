@@ -10,7 +10,7 @@
 #
 
 torrentGhost:
-  filesSavePath: /home/torrents/incomming/
+  filesSavePath: ./
   fileSizeLimit: 25M
 
 dataSources:
@@ -20,29 +20,29 @@ dataSources:
     nameExtractPattern: '/^(.*?) \-/'
     linkExtractPattern: '/\- (.*?)$/'
     linkTransformPattern: ['/^(.*?)$/', '$1?passkey=1234']
-    linkCookies:
-      ssid: 1234
-      user_logged: 1
-    filesSavePath: /home/torrents/incomming/opensourcetracker/
+#    linkCookies:
+#      ssid: 1234
+#      user_logged: 1
+#    filesSavePath: /home/torrents/incomming/opensourcetracker/
 
   AnotherOSTracker:
     type: rss
     url: http://another-os-tracker.tld/feed.rss
     interval: 300
     nameTagName: title
-    nameExtractPattern: null
+    nameExtractPattern: '/^(.*?)$/'
     linkTagName: link
-    linkExtractPattern: null
+    linkExtractPattern: '/^(.*?)$/'
     linkTransformPattern: ['/^(.*?)$/', '$1?downloadKey=4312']
-    linkCookies:
-      session: 321
-    filesSavePath: /home/torrents/incomming/anotheropensourcetracker/
+#    linkCookies:
+#      session: 321
+#    filesSavePath: /home/torrents/incomming/anotheropensourcetracker/
 
 downloadRules:
   Ubuntu:
-    sources: [OpenSourceTracker, AnotherOSTracker]
+#    sources: [OpenSourceTracker, AnotherOSTracker]
     nameContainsPattern: '/ubuntu/i'
     nameNotContainsPattern: '/book|video/i'
-    filesSavePath: /home/torrents/incomming/ubuntu/
-    runOnMatch: /usr/bin/app %ruleName %sourceName %matchedName %fileName %filePath
-    disableAfterMatch: true
+#    filesSavePath: /home/torrents/incomming/ubuntu/
+#    runOnMatch: /usr/bin/app %ruleName %sourceName %matchedName %fileName %filePath
+#    disableAfterMatch: true
