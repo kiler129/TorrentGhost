@@ -13,6 +13,8 @@
 namespace noFlash\TorrentGhost\Test\Command;
 
 use noFlash\TorrentGhost\Command\AboutCommand;
+use noFlash\TorrentGhost\Console\Application;
+use Symfony\Component\Console\Output\StreamOutput;
 
 class AboutCommandTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,5 +36,18 @@ class AboutCommandTest extends \PHPUnit_Framework_TestCase
     public function testCommandHaveCorrectDescription()
     {
         $this->assertSame('Information about TorrentGhost', $this->subjectUnderTest->getDescription());
+    }
+
+    public function testCommandOutputsSomeTextWithName()
+    {
+        $input = $this->getMockBuilder('Symfony\Component\Console\Input\InputInterface')->getMockForAbstractClass();
+
+        $fp = fopen('php://memory', 'w');
+        $output = new StreamOutput($fp);
+
+        $this->subjectUnderTest->run($input, $output);
+
+        fseek($fp, 0);
+        $this->assertContains(Application::NAME, stream_get_contents($fp));
     }
 }
