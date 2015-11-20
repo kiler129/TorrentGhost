@@ -15,7 +15,7 @@ namespace noFlash\TorrentGhost\Test\Command;
 use noFlash\TorrentGhost\Command\TestRuleCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-class TestConfigurationCommandTest extends \PHPUnit_Framework_TestCase
+class TestRuleCommandTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var TestRuleCommand
