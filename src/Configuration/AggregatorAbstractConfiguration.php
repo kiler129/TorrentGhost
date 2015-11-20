@@ -16,7 +16,7 @@ use noFlash\TorrentGhost\Exception\RegexException;
 use noFlash\TorrentGhost\Http\CookiesBag;
 
 /**
- * Generic configuration class common for all content aggregators.
+ * Generic configuration class common for all content sources.
  */
 abstract class AggregatorAbstractConfiguration implements NameAwareConfigurationInterface
 {

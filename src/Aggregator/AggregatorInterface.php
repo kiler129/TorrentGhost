@@ -28,7 +28,7 @@ interface AggregatorInterface
     const NO_PING_INTERVAL = -1;
 
     /**
-     * Some aggregators operates on chitinous stream of data rather than on source fetched in predefined intervals.
+     * Some sources operates on chitinous stream of data rather than on source fetched in predefined intervals.
      * This method can return stream to be watched by core.
      *
      * @return resource|null PHP stream.

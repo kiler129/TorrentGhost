@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
 /**
- * This class was extracted from RSS aggregator, but can be used with other aggregators in future.
+ * This class was extracted from RSS aggregator, but can be used with other sources in future.
  * Downloading RSS second time you will probably get some new entries but also some old ones. To prevent
  * re-matching and re-downloading already downloaded files blacklist was introduced.
  * Example: for 1st download you've got A B C, for 2nd you've got A B C D, for 3rd you've got C D E. Logical &

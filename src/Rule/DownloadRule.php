@@ -42,7 +42,7 @@ class DownloadRule implements RuleInterface
     private $nameNotContainsPattern;
 
     /**
-     * Provides all sources (aggregators) configured for this rule.
+     * Provides all sources (sources) configured for this rule.
      *
      * @return &AbstractAggregator[]
      */
