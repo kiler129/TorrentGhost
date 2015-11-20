@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost;
 
-use Contrib\Bundle\CoverallsV1Bundle\Config\Configuration;
 use noFlash\TorrentGhost\Aggregator\AggregatorInterface;
 use noFlash\TorrentGhost\Configuration\ConfigurationProvider;
 use noFlash\TorrentGhost\Configuration\TorrentGhostConfiguration;

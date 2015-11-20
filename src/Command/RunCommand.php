@@ -18,7 +18,6 @@ use noFlash\TorrentGhost\Configuration\ConfigurationProvider;
 use noFlash\TorrentGhost\Console\ConsoleApplication;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

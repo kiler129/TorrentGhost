@@ -12,8 +12,6 @@
 
 namespace noFlash\TorrentGhost\Command;
 
-use Symfony\Component\Console\Command\Command;
-
 /**
  * Verifies configuration for logic error
  */
