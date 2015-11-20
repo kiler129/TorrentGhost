@@ -15,7 +15,7 @@ namespace noFlash\TorrentGhost\Http;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Stream;
 use noFlash\TorrentGhost\Configuration\TorrentGhostConfiguration;
-use noFlash\TorrentGhost\Console\Application;
+use noFlash\TorrentGhost\Console\ConsoleApplication;
 use noFlash\TorrentGhost\Exception\UnsupportedFeatureException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -174,7 +174,7 @@ class FetchJob
      */
     private function getDefaultUserAgent()
     {
-        return 'Mozilla/5.0 (CLI; ' . PHP_OS . ') TorrentGhost/' . Application::VERSION;
+        return 'Mozilla/5.0 (CLI; ' . PHP_OS . ') TorrentGhost/' . ConsoleApplication::VERSION;
     }
 
     /**

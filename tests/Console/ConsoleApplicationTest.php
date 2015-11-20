@@ -12,24 +12,24 @@
 
 namespace noFlash\TorrentGhost\Test\Console;
 
-use noFlash\TorrentGhost\Console\Application;
+use noFlash\TorrentGhost\Console\ConsoleApplication;
 
-class ApplicationTest extends \PHPUnit_Framework_TestCase
+class ConsoleApplicationTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Application
+     * @var ConsoleApplication
      */
     private $subjectUnderTest;
 
     public function setUp()
     {
-        $this->subjectUnderTest = new Application();
+        $this->subjectUnderTest = new ConsoleApplication();
     }
 
     public function testApplicationNameAndVersionAreSetOnConstruction()
     {
-        $this->assertSame(Application::NAME, $this->subjectUnderTest->getName());
-        $this->assertSame(Application::VERSION, $this->subjectUnderTest->getVersion());
+        $this->assertSame(ConsoleApplication::NAME, $this->subjectUnderTest->getName());
+        $this->assertSame(ConsoleApplication::VERSION, $this->subjectUnderTest->getVersion());
     }
 
     /**
@@ -44,7 +44,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         ini_set('xdebug.show_exception_trace', true);
         ini_set('xdebug.scream', true);
 
-        new Application();
+        new ConsoleApplication();
 
         $this->assertEquals(false, ini_get('xdebug.show_exception_trace'));
         $this->assertEquals(false, ini_get('xdebug.scream'));

@@ -12,7 +12,7 @@
 
 namespace noFlash\TorrentGhost\Command;
 
-use noFlash\TorrentGhost\Console\Application;
+use noFlash\TorrentGhost\Console\ConsoleApplication;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,7 +27,7 @@ class AboutCommand extends AppCommand
      */
     protected function configure()
     {
-        $this->setName('about')->setDescription('Information about ' . Application::NAME);
+        $this->setName('about')->setDescription('Information about ' . ConsoleApplication::NAME);
     }
 
     /**
@@ -36,7 +36,7 @@ class AboutCommand extends AppCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln(
-            '<info>' . Application::NAME . " - Automagic Torrent Downloader</info>\n" .
+            '<info>' . ConsoleApplication::NAME . " - Automagic Torrent Downloader</info>\n" .
             '<comment>This application will help you with your laziness. ' .
             'For more information see https://github.com/kiler129/TorrentGhost/blob/master/README.md</comment>'
         );

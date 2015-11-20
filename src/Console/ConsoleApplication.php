@@ -21,7 +21,7 @@ use Symfony\Component\Console\Application as SymfonyApplication;
 /**
  * Main entry-point for application.
  */
-class Application extends SymfonyApplication
+class ConsoleApplication extends SymfonyApplication
 {
     /**
      * Full application name

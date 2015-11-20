@@ -13,7 +13,7 @@
 namespace noFlash\TorrentGhost\Test\Command;
 
 use noFlash\TorrentGhost\Command\AboutCommand;
-use noFlash\TorrentGhost\Console\Application;
+use noFlash\TorrentGhost\Console\ConsoleApplication;
 use Symfony\Component\Console\Output\StreamOutput;
 
 class AboutCommandTest extends \PHPUnit_Framework_TestCase
@@ -48,6 +48,6 @@ class AboutCommandTest extends \PHPUnit_Framework_TestCase
         $this->subjectUnderTest->run($input, $output);
 
         fseek($fp, 0);
-        $this->assertContains(Application::NAME, stream_get_contents($fp));
+        $this->assertContains(ConsoleApplication::NAME, stream_get_contents($fp));
     }
 }

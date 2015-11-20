@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-use noFlash\TorrentGhost\Console\Application;
+use noFlash\TorrentGhost\Console\ConsoleApplication;
 
 error_reporting(-1);
 
@@ -34,5 +34,5 @@ if (!file_exists(__DIR__ . '/../vendor/autoload.php')) {
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
-$console = new Application();
+$console = new ConsoleApplication();
 $console->run();

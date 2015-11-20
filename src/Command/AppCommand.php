@@ -12,7 +12,7 @@
 
 namespace noFlash\TorrentGhost\Command;
 
-use noFlash\TorrentGhost\Console\Application;
+use noFlash\TorrentGhost\Console\ConsoleApplication;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -42,7 +42,7 @@ abstract class AppCommand extends Command
             'c',
             InputOption::VALUE_REQUIRED,
             'Configuration file location',
-            Application::DEFAULT_CONFIG_FILE
+            ConsoleApplication::DEFAULT_CONFIG_FILE
         );
     }
 }
