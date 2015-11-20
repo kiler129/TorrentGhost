@@ -14,7 +14,7 @@ namespace noFlash\TorrentGhost\Exception;
 
 use Exception;
 
-class UnknownConfigurationParameterException extends \RuntimeException
+class UnknownConfigurationParameterException extends ConfigurationException
 {
     /**
      * @var string

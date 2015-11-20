@@ -16,10 +16,10 @@ use noFlash\TorrentGhost\Exception\UnknownConfigurationParameterException;
 
 class UnknownConfigurationParameterExceptionTest extends \PHPUnit_Framework_TestCase
 {
-    public function testClassExtendsRuntimeException()
+    public function testClassExtendsConfigurationException()
     {
         $reflection = new \ReflectionClass('\noFlash\TorrentGhost\Exception\UnknownConfigurationParameterException');
-        $this->assertTrue($reflection->isSubclassOf('\RuntimeException'));
+        $this->assertTrue($reflection->isSubclassOf('\noFlash\TorrentGhost\Exception\ConfigurationException'));
     }
 
     public function testNewObjectIsConstructedWithZeroCode()
