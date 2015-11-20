@@ -42,7 +42,6 @@ class ConfigurationFactory
     {
         if ($objectClass !== null) {
             $this->setClassName($objectClass);
-
         }
 
         $this->setInstanceParameters($instanceParameters);
