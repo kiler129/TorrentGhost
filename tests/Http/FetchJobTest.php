@@ -44,6 +44,15 @@ class FetchJobTest extends \PHPUnit_Framework_TestCase
      */
     private $subjectUnderTest;
 
+    /**
+     * @beforeClass
+     */
+    public static function definePHPMocks()
+    {
+        self::defineFunctionMock(self::SUT_NAMESPACE, "curl_getinfo");
+        self::defineFunctionMock(self::SUT_NAMESPACE, "curl_init");
+    }
+
     public function setUp()
     {
         $this->appConfiguration = $this->appConfiguration = $this->getMockBuilder(
