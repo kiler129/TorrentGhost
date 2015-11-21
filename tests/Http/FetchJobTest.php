@@ -102,7 +102,7 @@ class FetchJobTest extends \PHPUnit_Framework_TestCase
 
         $execMock = $this->getFunctionMock(self::SUT_NAMESPACE, 'curl_exec');
         $execMock->expects($this->any())->willReturn(true);
-        $this->getFunctionMock(self::SUT_NAMESPACE, 'curl_setopt_array')->expects($this->once())->with(
+        $this->getFunctionMock(self::SUT_NAMESPACE, 'curl_setopt_array')->expects($this->atLeastOnce())->with(
             $this->anything(),
             $this->callback(
                 function ($arg) use ($resource) {
@@ -288,6 +288,12 @@ class FetchJobTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->subjectUnderTest->getResponseStream());
     }
 
+    public function testResponseStreamSetterRejectsInvalidValues()
+    {
+        $this->setExpectedException('\InvalidArgumentException', 'Response stream need to be resource or null');
+        $this->subjectUnderTest->setResponseStream('resource');
+    }
+
     public function testGetResponseReturnsNullOnFreshObject()
     {
         $this->assertNull($this->subjectUnderTest->getResponse());
@@ -296,6 +302,20 @@ class FetchJobTest extends \PHPUnit_Framework_TestCase
     public function testDestructorWillNotCallCurlCloseOnFreshObject()
     {
         $this->getFunctionMock(self::SUT_NAMESPACE, 'curl_close')->expects($this->never());
+        $this->subjectUnderTest->__destruct();
+    }
+
+    public function testDestructorCallsCurlCloseOnUsedObject()
+    {
+        $uriMock = $this->getMockForAbstractClass('\Psr\Http\Message\UriInterface');
+        $uriMock->method('getScheme')->willReturn('ftp');
+        $this->request->method('getUri')->willReturn($uriMock);
+
+        $this->getFunctionMock(self::SUT_NAMESPACE, 'curl_exec')->expects($this->any())->willReturn(true);
+        $this->getFunctionMock(self::SUT_NAMESPACE, 'curl_setopt_array')->expects($this->any())->willReturn(true);
+        $this->subjectUnderTest->execute();
+
+        $this->getFunctionMock(self::SUT_NAMESPACE, 'curl_close')->expects($this->atLeastOnce());
         $this->subjectUnderTest->__destruct();
     }
 }
