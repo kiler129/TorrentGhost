@@ -170,7 +170,7 @@ class RssAggregatorTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->logger->expects($this->once())->method('warning')->with(
-            'Unable to locate name tag <other-name-tag> in _ for item#1. Skipping item.'
+            'Unable to locate name tag <other-name-tag> in rss_ for item#1. Skipping item.'
         );
 
         $result = $this->subjectUnderTest->parseFeedXml($rss);
@@ -212,7 +212,7 @@ class RssAggregatorTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->logger->expects($this->once())->method('warning')->with(
-            'Unable to locate name tag <foo-link-tag> in _ for item#0. Skipping item.'
+            'Unable to locate name tag <foo-link-tag> in rss_ for item#0. Skipping item.'
         );
 
         $result = $this->subjectUnderTest->parseFeedXml($rss);
@@ -249,7 +249,7 @@ class RssAggregatorTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->logger->expects($this->once())->method('warning')->with(
-            'Extracting name from "Foo-name" failed in _ for item#1. Skipping item.'
+            'Extracting name from "Foo-name" failed in rss_ for item#1. Skipping item.'
         );
 
         $result = $this->subjectUnderTest->parseFeedXml($rss);
@@ -286,7 +286,7 @@ class RssAggregatorTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->logger->expects($this->once())->method('warning')->with(
-            'Extracting link from "http://example.org/dl/" failed in _ for item#1. Skipping item.'
+            'Extracting link from "http://example.org/dl/" failed in rss_ for item#1. Skipping item.'
         );
 
         $result = $this->subjectUnderTest->parseFeedXml($rss);
@@ -327,7 +327,7 @@ class RssAggregatorTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->logger->expects($this->once())->method('warning')->with(
-            'Duplicate name "Example name" in _ for item#2. Skipping item.'
+            'Duplicate name "Example name" in rss_ for item#2. Skipping item.'
         );
 
         $result = $this->subjectUnderTest->parseFeedXml($rss);
