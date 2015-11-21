@@ -128,6 +128,8 @@ class RssAggregator extends AbstractAggregator
         $feed = $this->fetchFeed($this->configuration->getUrl());
         if ($feed === false) {
             $this->logger->error($this->getName() . ': Failed to fetch feed from ' . $this->configuration->getUrl());
+
+            return;
         }
 
         $this->logger->debug('Downloaded RSS for ' . $this->configuration->getUrl() . '(' . strlen($feed) . ' bytes)');
