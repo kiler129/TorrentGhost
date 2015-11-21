@@ -40,7 +40,8 @@ class ConfigurationProviderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetAggregatorConfigurationClassNameByAggregatorTypeIsCaseInsensitive()
+
+    public function testGetAggregatorConfigurationClassNameByAggregatorTypeProvidesValidClassName()
     {
         $expectedClassName = '\noFlash\TorrentGhost\Configuration\RssAggregatorConfiguration';
 
@@ -48,6 +49,11 @@ class ConfigurationProviderTest extends \PHPUnit_Framework_TestCase
             $expectedClassName,
             $this->subjectUnderTest->getAggregatorConfigurationClassNameByAggregatorType('Rss')
         );
+    }
+
+    public function testGetAggregatorConfigurationClassNameByAggregatorTypeIsCaseInsensitive()
+    {
+        $expectedClassName = '\noFlash\TorrentGhost\Configuration\RssAggregatorConfiguration';
 
         $this->assertSame(
             $expectedClassName,
@@ -69,6 +75,23 @@ class ConfigurationProviderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse(
             $this->subjectUnderTest->getAggregatorConfigurationClassNameByAggregatorType('unknown')
+        );
+    }
+
+    public function testGetAggregatorClassNameByAggregatorNameProvidesValidClassName()
+    {
+        $expectedClassName = '\noFlash\TorrentGhost\Aggregator\RssAggregator';
+
+        $this->assertSame(
+            $expectedClassName,
+            $this->subjectUnderTest->getAggregatorClassNameByAggregatorName('AnotherOSTracker')
+        );
+    }
+
+    public function testGetAggregatorClassNameByAggregatorNameReturnsFalseForUnknownClass()
+    {
+        $this->assertFalse(
+            $this->subjectUnderTest->getAggregatorConfigurationClassNameByAggregatorType('BlahBlah')
         );
     }
 

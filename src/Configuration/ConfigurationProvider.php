@@ -20,6 +20,7 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Configuration
+ * @TODO Every configuration should be returned as reference + cfg. objects should not be instantiated more once
  */
 class ConfigurationProvider implements ConfigurationInterface
 {
@@ -173,6 +174,31 @@ class ConfigurationProvider implements ConfigurationInterface
         $className = sprintf(
             '\noFlash\TorrentGhost\Configuration\%sAggregatorConfiguration',
             ucfirst(strtolower($type))
+        );
+
+        if (!class_exists($className)) {
+            return false;
+        }
+
+        return $className;
+    }
+
+    /**
+     * Returns configuration class name for given aggregator name
+     *
+     * @param string $name Aggregator name
+     *
+     * @return bool|string Returns class name or false if class cannot be found.
+     */
+    public function getAggregatorClassNameByAggregatorName($name)
+    {
+        if (!isset($this->rawConfiguration['dataSources'][$name]['type'])) {
+            return false;
+        }
+
+        $className = sprintf(
+            '\noFlash\TorrentGhost\Aggregator\%sAggregator',
+            ucfirst(strtolower($this->rawConfiguration['dataSources'][$name]['type']))
         );
 
         if (!class_exists($className)) {
