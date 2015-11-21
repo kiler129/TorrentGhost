@@ -43,6 +43,17 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->subjectUnderTest = new Application($this->configurationProvider, $this->logger);
     }
 
+    public function testCurrentPhpVersionPreservesStreamSelectKeys()
+    {
+        $errorMsg = 'Argh! You probably hit PHP bug #68798 (see https://bugs.php.net/bug.php?id=68798 for details)';
+
+        $r = $w = ['test' => tmpfile()];
+        $e = null;
+        stream_select($r, $w, $e, null);
+
+        $this->assertArrayHasKey('test', $r, $errorMsg);
+        $this->assertArrayHasKey('test', $w, $errorMsg);
+    }
 
     public function testSourcesIsEmptyArrayOnFreshObject()
     {
