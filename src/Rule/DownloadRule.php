@@ -163,6 +163,26 @@ class DownloadRule implements RuleInterface
     }
 
     /**
+     * Verifies if given name matches rule patterns.
+     *
+     * @param string $name Name to check
+     *
+     * @return bool
+     */
+    public function checkName($name)
+    {
+        if ($this->nameContainsPattern !== null && preg_match($this->nameContainsPattern, $name) < 1) {
+            return false;
+        }
+
+        if ($this->nameNotContainsPattern !== null && preg_match($this->nameNotContainsPattern, $name) > 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Informs whatever current configuration is complete and valid.
      *
      * @return bool

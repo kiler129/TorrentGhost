@@ -257,4 +257,45 @@ class DownloadRuleTest extends \PHPUnit_Framework_TestCase
             'Rule returned valid state after removing previously added source'
         );
     }
+
+    public function testCheckNameReturnsTrueForAnyStringIfBothMatchAndNotMatchPatternsAreSetToNull()
+    {
+        $this->subjectUnderTest->setNameContainsPattern(null);
+        $this->subjectUnderTest->setNameNotContainsPattern(null);
+
+        $this->assertTrue($this->subjectUnderTest->checkName('test'));
+        $this->assertTrue($this->subjectUnderTest->checkName('foo bar'));
+        $this->assertTrue($this->subjectUnderTest->checkName('☃'));
+    }
+
+    public function testCheckNameValidatesNameAccordingToNameContainsPattern()
+    {
+        $this->subjectUnderTest->setNameContainsPattern('/^[A-Fx0-9]+$/');
+
+        $this->assertTrue($this->subjectUnderTest->checkName('0xDBF'));
+        $this->assertTrue($this->subjectUnderTest->checkName('ABC'));
+        $this->assertFalse($this->subjectUnderTest->checkName('ZZz'));
+        $this->assertFalse($this->subjectUnderTest->checkName('abc'));
+    }
+
+    public function testCheckNameValidatesNameAccordingToNameNotContainsPattern()
+    {
+        $this->subjectUnderTest->setNameNotContainsPattern('/^[a-z]+$/');
+
+        $this->assertTrue($this->subjectUnderTest->checkName('BOO'));
+        $this->assertTrue($this->subjectUnderTest->checkName('BAR1'));
+        $this->assertFalse($this->subjectUnderTest->checkName('foo'));
+        $this->assertFalse($this->subjectUnderTest->checkName('bzz'));
+    }
+
+    public function testCheckNameValidatesNameAccordingToBothNameContainsAndNameNotContainsPatterns()
+    {
+        $this->subjectUnderTest->setNameContainsPattern('/^[a-z]+$/');
+        $this->subjectUnderTest->setNameNotContainsPattern('/foo|x/');
+
+        $this->assertTrue($this->subjectUnderTest->checkName('test'));
+        $this->assertTrue($this->subjectUnderTest->checkName('blah'));
+        $this->assertFalse($this->subjectUnderTest->checkName('barfoobazz'));
+        $this->assertFalse($this->subjectUnderTest->checkName('mixer'));
+    }
 }

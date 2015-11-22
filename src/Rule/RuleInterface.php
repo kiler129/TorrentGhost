@@ -91,4 +91,13 @@ interface RuleInterface extends NameAwareConfigurationInterface
      * @throws RegexException
      */
     public function setNameNotContainsPattern($nameNotContainsPattern);
+
+    /**
+     * Verifies if given name matches rule patterns.
+     *
+     * @param string $name Name to check
+     *
+     * @return bool
+     */
+    public function checkName($name);
 }
