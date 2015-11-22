@@ -86,13 +86,18 @@ interface AggregatorInterface
     public function getName();
 
     /**
-     * Tries to get new entries from aggregator. If where
-     *
-     * @param bool $flush Whatever to flush entries after retrieval (true by default).
+     * Tries to get new entries from aggregator.
      *
      * @return array[] Numeric indexed array containing two-element arrays with name & link entries.
      */
-    public function getLinks($flush = true);
+    public function getLinks();
+
+    /**
+     * Flushes links pool.
+     *
+     * @return void
+     */
+    public function flushLinksPool();
 
     /**
      * Aggregator may not be ready just after creation, this method tells the core if it's ready to operate.

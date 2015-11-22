@@ -105,17 +105,17 @@ class RssAggregator extends AbstractAggregator
     /**
      * @inheritDoc
      */
-    public function getLinks($flush = true)
+    public function getLinks()
     {
-        if ($flush) {
-            $links = $this->links;
-            $this->links = [];
+        return $this->links;
+    }
 
-            return $links;
-
-        } else {
-            return $this->links;
-        }
+    /**
+     * @inheritDoc
+     */
+    public function flushLinksPool()
+    {
+        $this->links = [];
     }
 
     /**
