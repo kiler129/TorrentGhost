@@ -75,7 +75,8 @@ class DownloadRule implements RuleInterface
     public function removeSource($aggregatorName)
     {
         if (!is_string($aggregatorName)) {
-            throw new \InvalidArgumentException('Expected string - got ' . gettype($aggregatorName));
+            $errorClass = '\\' . ((PHP_MAJOR_VERSION >= 7) ? 'TypeError' : 'InvalidArgumentException');
+            throw new $errorClass('Expected string - got ' . gettype($aggregatorName));
         }
 
         if (!isset($this->sources[$aggregatorName])) {
@@ -96,7 +97,8 @@ class DownloadRule implements RuleInterface
     public function hasSource($aggregatorName)
     {
         if (!is_string($aggregatorName)) {
-            throw new \InvalidArgumentException('Expected string - got ' . gettype($aggregatorName));
+            $errorClass = '\\' . ((PHP_MAJOR_VERSION >= 7) ? 'TypeError' : 'InvalidArgumentException');
+            throw new $errorClass('Expected string - got ' . gettype($aggregatorName));
         }
 
         return isset($this->sources[$aggregatorName]);
