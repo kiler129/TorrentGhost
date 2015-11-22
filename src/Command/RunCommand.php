@@ -49,7 +49,16 @@ class RunCommand extends AppCommand
             $input->getOption('log'),
             $output->getVerbosity()
         ); //If it crash here it will just crash without fancy-pancy error message, sorry!
+
         $logger->info('Starting ' . ConsoleApplication::NAME . ' v' . ConsoleApplication::VERSION);
+        if (version_compare(PHP_VERSION, '5.5.0', '<')) {
+            $logger->warning(
+                'You\'re using outdated version of PHP (v' . PHP_VERSION . '). ' . ConsoleApplication::NAME .
+                ' should work, but may be unstable or you may experience bugs. It\'s recommended to upgrade your ' .
+                'system. See http://php.net/eol.php for further details.'
+            );
+        }
+
 
         try {
             //TODO handle POSIX signal to reload config (and these two lines should be than extracted to method)
