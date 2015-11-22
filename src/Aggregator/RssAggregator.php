@@ -140,7 +140,7 @@ class RssAggregator extends AbstractAggregator
             return;
         }
 
-        $this->logger->debug('Downloaded RSS for ' . $this->configuration->getUrl() . '(' . strlen($feed) . ' bytes)');
+        $this->logger->debug('Downloaded RSS for ' . $this->configuration->getUrl() . ' (' . strlen($feed) . ' bytes)');
         $this->lastSuccessfulDownload = time();
 
         $feed = $this->parseFeedXml($feed);

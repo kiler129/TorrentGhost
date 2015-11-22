@@ -121,6 +121,7 @@ class FetchJob
             );
         }
 
+        $acceptUnsafeCertsFlag = ($this->appConfig->isAcceptUnsafeCertificates()) ? 0 : 2; //I fucking love curl...
         curl_setopt_array(
             $this->cUrl,
             [
@@ -128,6 +129,8 @@ class FetchJob
                 CURLOPT_FILE           => $this->responseStream,
                 CURLOPT_HEADER         => 0,
                 CURLOPT_CONNECTTIMEOUT => 5,
+                CURLOPT_SSL_VERIFYPEER => $acceptUnsafeCertsFlag,
+                CURLOPT_SSL_VERIFYHOST => $acceptUnsafeCertsFlag,
             ]
         );
 

@@ -12,6 +12,7 @@
 torrentGhost:
   filesSavePath: ./
   fileSizeLimit: 25M
+  acceptUnsafeCertificates: true
 
 dataSources:
   OpenSourceTracker:

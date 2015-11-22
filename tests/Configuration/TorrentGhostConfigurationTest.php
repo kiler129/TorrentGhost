@@ -229,6 +229,25 @@ class TorrentGhostConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->subjectUnderTest->setFileSizeLimit('2.147483648G');
     }
 
+    public function testApplicationRejectsUnsafeHttpsCertificatesByDefault()
+    {
+        $this->assertFalse($this->subjectUnderTest->isAcceptUnsafeCertificates());
+    }
+
+    public function testAcceptingUnsafeCertificatesFlagCanBeSet()
+    {
+        $this->subjectUnderTest->setAcceptUnsafeCertificates(true);
+
+        $this->assertTrue($this->subjectUnderTest->isAcceptUnsafeCertificates());
+    }
+
+    public function testAcceptingUnsafeCertificatesFlagConvertsNonBoolValuesToBool()
+    {
+        $this->subjectUnderTest->setAcceptUnsafeCertificates(1);
+
+        $this->assertTrue($this->subjectUnderTest->isAcceptUnsafeCertificates());
+    }
+
     public function testConfigurationIsConsideredValidAfterSettingFilesSavePath()
     {
         $this->assertFalse($this->subjectUnderTest->isValid(), 'Configuration should not be valid for fresh object');

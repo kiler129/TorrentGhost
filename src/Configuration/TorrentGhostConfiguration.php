@@ -28,6 +28,11 @@ class TorrentGhostConfiguration implements ConfigurationInterface
     private $fileSizeLimit = 25000000;
 
     /**
+     * @var bool Option controls whatever HTTP core will accept self-signed or non-matching certificated for https calls
+     */
+    private $acceptUnsafeCertificates = false;
+
+    /**
      * Provides patch where downloaded torrent files should be saved.
      *
      * @return string Absolute path to directory without leading slash.
@@ -132,6 +137,26 @@ class TorrentGhostConfiguration implements ConfigurationInterface
         }
 
         $this->fileSizeLimit = (int)$fileSizeLimit;
+    }
+
+    /**
+     * Returns acceptUnsafeCertificates flag value.
+     *
+     * @return bool
+     */
+    public function isAcceptUnsafeCertificates()
+    {
+        return $this->acceptUnsafeCertificates;
+    }
+
+    /**
+     * Allows you to set whatever HTTP core will accept self-signed or non-matching certificated for HTTPS calls.
+     *
+     * @param bool $accept
+     */
+    public function setAcceptUnsafeCertificates($accept)
+    {
+        $this->acceptUnsafeCertificates = (bool)$accept;
     }
 
     /**
