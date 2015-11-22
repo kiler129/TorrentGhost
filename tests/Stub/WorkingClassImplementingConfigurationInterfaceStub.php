@@ -22,6 +22,8 @@ class WorkingClassImplementingConfigurationInterfaceStub implements Configuratio
     private   $privateField           = 'private';
     private   $withSetter;
     private   $wEiRdCaSePaRaMeTeR;
+    private   $tests                  = [];
+    private   $items                  = [];
 
     public function getWithSetter()
     {
@@ -60,12 +62,48 @@ class WorkingClassImplementingConfigurationInterfaceStub implements Configuratio
         return false;
     }
 
+    public function addTests($test)
+    {
+        $this->tests[] = $test;
+    }
+
+    public function addTest()
+    {
+        //Plural form of add is available which should be called first since it's closer match
+        throw new \LogicException(__METHOD__ . ' wasn\'t expected to be called.');
+    }
+
+    public function getTests()
+    {
+        return $this->tests;
+    }
+
+    public function addItem($item)
+    {
+        $this->items[] = $item;
+    }
+
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+    protected function setProtectedSetterField()
+    {
+        throw new \LogicException(__METHOD__ . ' wasn\'t expected to be called.');
+    }
+
+    protected function setProtectedAdderField()
+    {
+        throw new \LogicException(__METHOD__ . ' wasn\'t expected to be called.');
+    }
+
     private function setPrivateSetterField()
     {
         throw new \LogicException(__METHOD__ . ' wasn\'t expected to be called.');
     }
 
-    private function setProtectedSetterField()
+    private function setPrivateAdderField()
     {
         throw new \LogicException(__METHOD__ . ' wasn\'t expected to be called.');
     }

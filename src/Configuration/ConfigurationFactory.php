@@ -120,6 +120,7 @@ class ConfigurationFactory
      * @param ConfigurationInterface $instance
      *
      * @throws UnknownConfigurationParameterException
+     * @todo That method needs refactoring - it's too deep
      */
     private function setParametersOnInstance(ConfigurationInterface $instance)
     {
@@ -136,9 +137,35 @@ class ConfigurationFactory
                 $instance->{$setterName}($paramValue);
                 continue;
             }
+            $testedMethods = [$setterName, 'set' . ucfirst($paramName)];
+
+            if (is_array($paramValue)) {
+                $adderName = 'add' . $paramName;
+                if ($classReflection->hasMethod($adderName) && $classReflection->getMethod($adderName)->isPublic()) {
+                    array_map([$instance, $adderName], $paramValue);
+                    continue;
+                }
+                $testedMethods[] = $adderName;
+                $testedMethods[] = 'add' . ucfirst($paramName);
+
+                //TODO this isset is not tested
+                if (substr(strtolower($paramName), -1, 1) == 's' && isset($paramName[1])) { //Plural word
+                    $pluralParamName = substr($paramName, 0, -1);
+                    $adderName = 'add' . $pluralParamName;
+                    if ($classReflection->hasMethod($adderName) &&
+                        $classReflection->getMethod($adderName)->isPublic()
+                    ) {
+                        array_map([$instance, $adderName], $paramValue);
+                        continue;
+                    }
+                    $testedMethods[] = $adderName;
+                    $testedMethods[] = 'add' . ucfirst($pluralParamName);
+                }
+            }
 
             throw new UnknownConfigurationParameterException(
-                'Failed to locate public "' . $paramName . '" property or public setter named ' . $setterName . '()',
+                'Failed to locate public "' . $paramName . '" property or any of the following methods: ' .
+                implode(', ', $testedMethods),
                 $paramName
             );
         }

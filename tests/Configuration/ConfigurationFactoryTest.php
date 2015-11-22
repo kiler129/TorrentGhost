@@ -190,7 +190,7 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException(
             '\noFlash\TorrentGhost\Exception\UnknownConfigurationParameterException',
-            'Failed to locate public "privateField" property or public setter named setprivateField()'
+            'Failed to locate public "privateField" property or any of the following methods: setprivateField, setPrivateField'
         );
         $this->subjectUnderTest->build();
     }
@@ -206,7 +206,7 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException(
             '\noFlash\TorrentGhost\Exception\UnknownConfigurationParameterException',
-            'Failed to locate public "protectedField" property or public setter named setprotectedField()'
+            'Failed to locate public "protectedField" property or any of the following methods: setprotectedField, setProtectedField'
         );
         $this->subjectUnderTest->build();
     }
@@ -222,7 +222,7 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException(
             '\noFlash\TorrentGhost\Exception\UnknownConfigurationParameterException',
-            'Failed to locate public "privateSetterField" property or public setter named setprivateSetterField()'
+            'Failed to locate public "privateSetterField" property or any of the following methods: setprivateSetterField, setPrivateSetterField'
         );
         $this->subjectUnderTest->build();
     }
@@ -238,7 +238,7 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException(
             '\noFlash\TorrentGhost\Exception\UnknownConfigurationParameterException',
-            'Failed to locate public "protectedSetterField" property or public setter named setprotectedSetterField()'
+            'Failed to locate public "protectedSetterField" property or any of the following methods: setprotectedSetterField, setProtectedSetterField'
         );
         $this->subjectUnderTest->build();
     }
@@ -297,7 +297,98 @@ class ConfigurationFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException(
             '\noFlash\TorrentGhost\Exception\UnknownConfigurationParameterException',
-            'Failed to locate public "PuBlIcFieldWitHoutTrAp" property or public setter named setPuBlIcFieldWitHoutTrAp()'
+            'Failed to locate public "PuBlIcFieldWitHoutTrAp" property or any of the following methods: setPuBlIcFieldWitHoutTrAp, setPuBlIcFieldWitHoutTrAp'
+        );
+        $this->subjectUnderTest->build();
+    }
+
+    public function testArrayParameterIsSetAsAnyOtherIfSetterOrPublicFieldIsAvailable()
+    {
+        $parameters = ['publicField' => ['exampleValue'], 'withSetter' => ['grump-grump']];
+
+        $this->subjectUnderTest->setClassName(
+            '\noFlash\TorrentGhost\Test\Stub\WorkingClassImplementingConfigurationInterfaceStub'
+        );
+        $this->subjectUnderTest->setInstanceParameters($parameters);
+
+        /** @var \noFlash\TorrentGhost\Test\Stub\WorkingClassImplementingConfigurationInterfaceStub $createdObject */
+        $createdObject = $this->subjectUnderTest->build();
+        $this->assertSame($parameters['publicField'], $createdObject->publicField);
+        $this->assertSame($parameters['withSetter'], $createdObject->getWithSetter());
+    }
+
+    public function testArrayParameterIsIteratedAndPassedToAddMethodNamedAfterCollectionFiledName()
+    {
+        $parameters = ['tests' => ['1', 'test', '3']];
+
+        $this->subjectUnderTest->setClassName(
+            '\noFlash\TorrentGhost\Test\Stub\WorkingClassImplementingConfigurationInterfaceStub'
+        );
+        $this->subjectUnderTest->setInstanceParameters($parameters);
+
+        /** @var \noFlash\TorrentGhost\Test\Stub\WorkingClassImplementingConfigurationInterfaceStub $createdObject */
+        $createdObject = $this->subjectUnderTest->build();
+        $this->assertSame($parameters['tests'], $createdObject->getTests());
+    }
+
+    public function testArrayParameterIsIteratedAndPassedToAddMethodNamedAfterSingularCollectionFiledNameIfNoPluralAddMethodIsAvailable()
+    {
+        $parameters = ['items' => ['i1', 'i2', 'i99']];
+
+        $this->subjectUnderTest->setClassName(
+            '\noFlash\TorrentGhost\Test\Stub\WorkingClassImplementingConfigurationInterfaceStub'
+        );
+        $this->subjectUnderTest->setInstanceParameters($parameters);
+
+        /** @var \noFlash\TorrentGhost\Test\Stub\WorkingClassImplementingConfigurationInterfaceStub $createdObject */
+        $createdObject = $this->subjectUnderTest->build();
+        $this->assertSame($parameters['items'], $createdObject->getItems());
+    }
+
+    public function testParameterWithArrayValueWhichDoesNotHaveSetterNorAddedAbortsBuild()
+    {
+        $parameters = ['non-existing-fields' => ['val1', 'val2']];
+
+        $this->subjectUnderTest->setClassName(
+            '\noFlash\TorrentGhost\Test\Stub\WorkingClassImplementingConfigurationInterfaceStub'
+        );
+        $this->subjectUnderTest->setInstanceParameters($parameters);
+
+        $this->setExpectedException(
+            '\noFlash\TorrentGhost\Exception\UnknownConfigurationParameterException',
+            'Failed to locate public "non-existing-fields" property or any of the following methods: setnon-existing-fields, setNon-existing-fields, addnon-existing-fields, addNon-existing-fields, addnon-existing-field, addNon-existing-field'
+        );
+        $this->subjectUnderTest->build();
+    }
+
+    public function testParameterWithArrayValueWhichHaveOnlyPrivateAdderAbortsBuild()
+    {
+        $parameters = ['privateAdderField' => ['x', 'y']];
+
+        $this->subjectUnderTest->setClassName(
+            '\noFlash\TorrentGhost\Test\Stub\WorkingClassImplementingConfigurationInterfaceStub'
+        );
+        $this->subjectUnderTest->setInstanceParameters($parameters);
+
+        $this->setExpectedException(
+            '\noFlash\TorrentGhost\Exception\UnknownConfigurationParameterException',
+            'Failed to locate public "privateAdderField" property or any of the following methods: setprivateAdderField, setPrivateAdderField, addprivateAdderField, addPrivateAdderField'
+        );
+        $this->subjectUnderTest->build();
+    }
+
+    public function testParameterWithArrayValueWhichHaveOnlyProtectedAdderAbortsBuild()
+    {
+        $parameters = ['protectedAdderField' => ['a', 'b', 'c']];
+
+        $this->subjectUnderTest->setClassName(
+            '\noFlash\TorrentGhost\Test\Stub\WorkingClassImplementingConfigurationInterfaceStub'
+        );
+        $this->subjectUnderTest->setInstanceParameters($parameters);
+
+        $this->setExpectedException(
+            '\noFlash\TorrentGhost\Exception\UnknownConfigurationParameterException',
+            'Failed to locate public "protectedAdderField" property or any of the following methods: setprotectedAdderField, setProtectedAdderField, addprotectedAdderField, addProtectedAdderField'
         );
         $this->subjectUnderTest->build();
     }
