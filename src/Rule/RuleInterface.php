@@ -25,38 +25,41 @@ interface RuleInterface extends NameAwareConfigurationInterface
     /**
      * Provides all sources (aggregators) configured for this rule.
      *
-     * @return &AbstractAggregator[]
+     * @return string[]
      */
     public function getSources();
 
     /**
      * Adds new source (aggregator) to current rule.
      *
-     * @param AggregatorInterface &$aggregator
+     * @param string $aggregatorName
      *
      * @return bool
      * @throws InvalidSourceException Thrown if source already exists in current source.
+     * @throws \InvalidArgumentException Given argument is not string type.
      */
-    public function addSource(AggregatorInterface &$aggregator);
+    public function addSource($aggregatorName);
 
     /**
      * Removes previously added source (aggregator) to current rule.
      *
-     * @param AggregatorInterface $aggregator
+     * @param string $aggregatorName
      *
      * @return bool
      * @throws InvalidSourceException Thrown if source doesn't exist in current source.
+     * @throws \InvalidArgumentException Given argument is not string type.
      */
-    public function removeSource(AggregatorInterface $aggregator);
+    public function removeSource($aggregatorName);
 
     /**
      * Check if this rule uses source provided.
      *
-     * @param AggregatorInterface $aggregator
+     * @param string $aggregatorName
      *
      * @return bool
+     * @throws \InvalidArgumentException Given argument is not string type.
      */
-    public function hasSource(AggregatorInterface $aggregator);
+    public function hasSource($aggregatorName);
 
     /**
      * Provides regex which name need to match to be considered matching whole rule.

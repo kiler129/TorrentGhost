@@ -47,8 +47,7 @@ class DownloadRuleTest extends \PHPUnit_Framework_TestCase
 
     public function testAggregatorInterfaceInstanceCanBeAddedAsSource()
     {
-        $aggregator = $this->getMockBuilder('\noFlash\TorrentGhost\Aggregator\AggregatorInterface')
-                           ->getMockForAbstractClass();
+        $aggregator = 'testAggregator';
 
         $this->assertTrue($this->subjectUnderTest->addSource($aggregator), 'Failed to add source');
         $this->assertSame(
@@ -60,10 +59,8 @@ class DownloadRuleTest extends \PHPUnit_Framework_TestCase
 
     public function testMoreThanSingleSourceCanBeAdded()
     {
-        $aggregator1 = $this->getMockBuilder('\noFlash\TorrentGhost\Aggregator\AggregatorInterface')
-                            ->getMockForAbstractClass();
-        $aggregator2 = $this->getMockBuilder('\noFlash\TorrentGhost\Aggregator\AggregatorInterface')
-                            ->getMockForAbstractClass();
+        $aggregator1 = 'exampleFirstAggregator';
+        $aggregator2 = 'exampleSecondAggregator';
 
         $this->assertTrue($this->subjectUnderTest->addSource($aggregator1), 'Failed to add 1st source');
         $this->assertTrue($this->subjectUnderTest->addSource($aggregator2), 'Failed to add 2md source');
@@ -75,40 +72,40 @@ class DownloadRuleTest extends \PHPUnit_Framework_TestCase
 
     public function testTheSameSourceCanBeAddedOnlyOnce()
     {
-        $aggregator = $this->getMockBuilder('\noFlash\TorrentGhost\Aggregator\AggregatorInterface')
-                           ->getMockForAbstractClass();
-        $aggregator->expects($this->atLeastOnce())->method('getName')->willReturn('TEST');
+        $aggregator = 'fooBarAggregator';
 
         $this->assertTrue($this->subjectUnderTest->addSource($aggregator), 'Failed to add source for the first time');
 
         $this->setExpectedException(
             '\noFlash\TorrentGhost\Exception\InvalidSourceException',
-            'Cannot add source TEST - it is already in'
+            'Cannot add source fooBarAggregator - it is already in'
         );
         $this->subjectUnderTest->addSource($aggregator);
     }
 
-    public function testAddSourceRejectsObjectsOtherThanAggregatorInterface()
+    public function testAddSourceRejectsObjects()
     {
-        if (PHP_MAJOR_VERSION < 7) {
-            /*
-             * For explanation refer to links below:
-             * - http://stackoverflow.com/questions/25570786/how-to-unit-test-type-hint-with-phpunit
-             * - https://github.com/sebastianbergmann/phpunit/issues/178
-             */
-            $this->setExpectedException(get_class(new \PHPUnit_Framework_Error("", 0, "", 1)));
-
-        } else {
-            $this->setExpectedException('\TypeError');
-        }
+        $this->setExpectedException(
+            (PHP_MAJOR_VERSION >= 7) ? '\TypeError' : '\InvalidArgumentException',
+            'Expected string - got object'
+        );
 
         $this->subjectUnderTest->addSource(new \stdClass());
     }
 
+    public function testAddSourceRejectsArrays()
+    {
+        $this->setExpectedException(
+            (PHP_MAJOR_VERSION >= 7) ? '\TypeError' : '\InvalidArgumentException',
+            'Expected string - got array'
+        );
+
+        $this->subjectUnderTest->addSource([]);
+    }
+
     public function testSourceCanBeRemoved()
     {
-        $aggregator = $this->getMockBuilder('\noFlash\TorrentGhost\Aggregator\AggregatorInterface')
-                           ->getMockForAbstractClass();
+        $aggregator = 'fooSource';
 
         $this->subjectUnderTest->addSource($aggregator);
         $this->assertTrue($this->subjectUnderTest->removeSource($aggregator), 'Failed to remove source');
@@ -126,10 +123,8 @@ class DownloadRuleTest extends \PHPUnit_Framework_TestCase
 
     public function testRemovingOneSourceLeavesOtherIntact()
     {
-        $aggregator1 = $this->getMockBuilder('\noFlash\TorrentGhost\Aggregator\AggregatorInterface')
-                            ->getMockForAbstractClass();
-        $aggregator2 = $this->getMockBuilder('\noFlash\TorrentGhost\Aggregator\AggregatorInterface')
-                            ->getMockForAbstractClass();
+        $aggregator1 = '1stSource';
+        $aggregator2 = '2ndSource';
 
         $this->subjectUnderTest->addSource($aggregator1);
         $this->subjectUnderTest->addSource($aggregator2);
@@ -146,40 +141,39 @@ class DownloadRuleTest extends \PHPUnit_Framework_TestCase
 
     public function testSourceNotAddedBeforeResultsInInvalidSourceException()
     {
-        $aggregator = $this->getMockBuilder('\noFlash\TorrentGhost\Aggregator\AggregatorInterface')
-                           ->getMockForAbstractClass();
-        $aggregator->expects($this->atLeastOnce())->method('getName')->willReturn('FOO');
+        $aggregator = 'ghostSource';
 
         $this->setExpectedException(
             '\noFlash\TorrentGhost\Exception\InvalidSourceException',
-            'Cannot remove Source FOO - it was not added to'
+            'Cannot remove source ghostSource - it was not added to'
         );
         $this->subjectUnderTest->removeSource($aggregator);
     }
 
-    public function testRemoveSourceRejectsObjectsOtherThanAggregatorInterface()
+    public function testRemoveSourceRejectsObjects()
     {
-        if (PHP_MAJOR_VERSION < 7) {
-            /*
-             * For explanation refer to links below:
-             * - http://stackoverflow.com/questions/25570786/how-to-unit-test-type-hint-with-phpunit
-             * - https://github.com/sebastianbergmann/phpunit/issues/178
-             */
-            $this->setExpectedException(get_class(new \PHPUnit_Framework_Error("", 0, "", 1)));
-
-        } else {
-            $this->setExpectedException('\TypeError');
-        }
+        $this->setExpectedException(
+            (PHP_MAJOR_VERSION >= 7) ? '\TypeError' : '\InvalidArgumentException',
+            'Expected string - got object'
+        );
 
         $this->subjectUnderTest->removeSource(new \stdClass());
     }
 
+    public function testRemoveSourceRejectsArrays()
+    {
+        $this->setExpectedException(
+            (PHP_MAJOR_VERSION >= 7) ? '\TypeError' : '\InvalidArgumentException',
+            'Expected string - got array'
+        );
+
+        $this->subjectUnderTest->removeSource([]);
+    }
+
     public function testHasSourceCorrectlyLocatesSources()
     {
-        $aggregator1 = $this->getMockBuilder('\noFlash\TorrentGhost\Aggregator\AggregatorInterface')
-                            ->getMockForAbstractClass();
-        $aggregator2 = $this->getMockBuilder('\noFlash\TorrentGhost\Aggregator\AggregatorInterface')
-                            ->getMockForAbstractClass();
+        $aggregator1 = 'derpAggregator';
+        $aggregator2 = 'derpSource';
 
         $this->subjectUnderTest->addSource($aggregator2);
 
@@ -187,6 +181,26 @@ class DownloadRuleTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->subjectUnderTest->hasSource($aggregator2));
     }
 
+    public function testHasSourceRejectsObjects()
+    {
+        $this->setExpectedException(
+            (PHP_MAJOR_VERSION >= 7) ? '\TypeError' : '\InvalidArgumentException',
+            'Expected string - got object'
+        );
+
+        $this->subjectUnderTest->hasSource(new \stdClass());
+    }
+
+    public function testHasSourceRejectsArrays()
+    {
+        $this->setExpectedException(
+            (PHP_MAJOR_VERSION >= 7) ? '\TypeError' : '\InvalidArgumentException',
+            'Expected string - got array'
+        );
+
+        $this->subjectUnderTest->hasSource([]);
+    }
+    
     public function testNameContainsPatternGetterReturnsNullByDefault()
     {
         $this->assertNull($this->subjectUnderTest->getNameContainsPattern());
@@ -243,8 +257,7 @@ class DownloadRuleTest extends \PHPUnit_Framework_TestCase
 
     public function testRuleIsConsideredValidIfAtLeastOneSourceWasAdded()
     {
-        $aggregator = $this->getMockBuilder('\noFlash\TorrentGhost\Aggregator\AggregatorInterface')
-                           ->getMockForAbstractClass();
+        $aggregator = 'christmasSource';
 
         $this->assertFalse($this->subjectUnderTest->isValid(), 'Rule returned valid state without sources');
 

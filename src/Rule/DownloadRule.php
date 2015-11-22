@@ -12,7 +12,6 @@
 
 namespace noFlash\TorrentGhost\Rule;
 
-use noFlash\TorrentGhost\Aggregator\AggregatorInterface;
 use noFlash\TorrentGhost\Configuration\NamedConfigurationTrait;
 use noFlash\TorrentGhost\Exception\InvalidSourceException;
 use noFlash\TorrentGhost\Exception\RegexException;
@@ -25,7 +24,7 @@ class DownloadRule implements RuleInterface
     use NamedConfigurationTrait;
 
     /**
-     * @var &AbstractAggregator[]
+     * @var array Aggregators names. For optimal performance names are hold in keys while values are just "true"
      */
     private $sources = [];
 
@@ -42,70 +41,65 @@ class DownloadRule implements RuleInterface
     private $nameNotContainsPattern;
 
     /**
-     * Provides all sources (sources) configured for this rule.
-     *
-     * @return &AbstractAggregator[]
+     * @inheritdoc
      */
     public function getSources()
     {
-        return $this->sources;
+        return array_keys($this->sources);
     }
 
     /**
-     * Adds new source (aggregator) to current rule.
-     *
-     * @param AggregatorInterface &$aggregator
-     *
-     * @return bool
-     * @throws InvalidSourceException Thrown if source already exists in current source.
+     * @inheritdoc
      */
-    public function addSource(AggregatorInterface &$aggregator)
+    public function addSource($aggregatorName)
     {
-        if (in_array($aggregator, $this->sources, true)) {
+        if (!is_string($aggregatorName)) {
+            $errorClass = '\\' . ((PHP_MAJOR_VERSION >= 7) ? 'TypeError' : 'InvalidArgumentException');
+            throw new $errorClass('Expected string - got ' . gettype($aggregatorName));
+        }
+
+        if (isset($this->sources[$aggregatorName])) {
             throw new InvalidSourceException(
-                'Cannot add source ' . $aggregator->getName() . ' - it is already in ' . $this->getName() . ' rule'
+                'Cannot add source ' . $aggregatorName . ' - it is already in ' . $this->getName() . ' rule'
             );
         }
 
-        $this->sources[] = &$aggregator;
+        $this->sources[$aggregatorName] = true;
 
         return true;
     }
 
     /**
-     * Removes previously added source (aggregator) to current rule.
-     *
-     * @param AggregatorInterface $aggregator
-     *
-     * @return bool
-     * @throws InvalidSourceException Thrown if source doesn't exist in current source.
+     * @inheritdoc
      */
-    public function removeSource(AggregatorInterface $aggregator)
+    public function removeSource($aggregatorName)
     {
-        $sourceKey = array_search($aggregator, $this->sources, true);
+        if (!is_string($aggregatorName)) {
+            throw new \InvalidArgumentException('Expected string - got ' . gettype($aggregatorName));
+        }
 
-        if ($sourceKey === false) {
+        if (!isset($this->sources[$aggregatorName])) {
             throw new InvalidSourceException(
-                'Cannot remove Source ' . $aggregator->getName() . ' - it was not added to ' . $this->getName() .
+                'Cannot remove source ' . $aggregatorName . ' - it was not added to ' . $this->getName() .
                 ' rule before'
             );
         }
 
-        unset($this->sources[$sourceKey]);
+        unset($this->sources[$aggregatorName]);
 
         return true;
     }
 
     /**
-     * Check if this rule uses source provided.
-     *
-     * @param AggregatorInterface $aggregator
-     *
-     * @return bool
+     * @inheritdoc
      */
-    public function hasSource(AggregatorInterface $aggregator)
+    public function hasSource($aggregatorName)
     {
-        return in_array($aggregator, $this->sources, true);
+        if (!is_string($aggregatorName)) {
+            throw new \InvalidArgumentException('Expected string - got ' . gettype($aggregatorName));
+        }
+
+        return isset($this->sources[$aggregatorName]);
     }
 
     /**
