@@ -44,5 +44,14 @@ abstract class AppCommand extends Command
             'Configuration file location',
             ConsoleApplication::DEFAULT_CONFIG_FILE
         );
+
+        $this->addOption(
+            'log',
+            'l',
+            InputOption::VALUE_REQUIRED,
+            'Log file location. By defaults app logs to stdout.',
+            ConsoleApplication::DEFAULT_LOG_FILE
+        );
+
     }
 }

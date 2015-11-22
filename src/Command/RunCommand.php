@@ -45,7 +45,10 @@ class RunCommand extends AppCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $logger = $this->getLogger(); //If it crash here it will just crash without fancy-pancy error message, sorry!
+        $logger = $this->getLogger(
+            $input->getOption('log'),
+            $output->getVerbosity()
+        ); //If it crash here it will just crash without fancy-pancy error message, sorry!
         $logger->info('Starting ' . ConsoleApplication::NAME . ' v' . ConsoleApplication::VERSION);
 
         try {
@@ -61,6 +64,7 @@ class RunCommand extends AppCommand
         }
 
         $logger->info(ConsoleApplication::NAME . ' finished');
+
         return self::POSIX_EXIT_OK;
     }
 
@@ -79,7 +83,14 @@ class RunCommand extends AppCommand
             return new NullLogger();
         }
 
-        $logger = new Shout($destination, Shout::FILE_APPEND); //By default Shout outputs every log message
+        $realDestination = ($destination === 'php://stdout') ? 'php://stdout' : realpath($destination);
+        $logger = new Shout(
+            ($realDestination) ?: 'php://stdout', Shout::FILE_APPEND
+        ); //By default Shout outputs every log message
+
+        if (!$realDestination) {
+            $logger->error("Failed to open desired log file $destination - using STDOUT fallback");
+        }
 
         if ($verbosityLevel < OutputInterface::VERBOSITY_VERBOSE) {
             $logger->setMaximumLogLevel(6);
