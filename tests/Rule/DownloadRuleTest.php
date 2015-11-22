@@ -207,6 +207,13 @@ class DownloadRuleTest extends \PHPUnit_Framework_TestCase
         $this->subjectUnderTest->setNameContainsPattern('grump grump');
     }
 
+    public function testNameContainsPatternAcceptsNull()
+    {
+        $this->subjectUnderTest->setNameContainsPattern('/./');
+        $this->subjectUnderTest->setNameContainsPattern(null);
+        $this->assertNull($this->subjectUnderTest->getNameContainsPattern());
+    }
+
     public function testNameNotContainsPatternGetterReturnsNullByDefault()
     {
         $this->assertNull($this->subjectUnderTest->getNameNotContainsPattern());
@@ -225,6 +232,13 @@ class DownloadRuleTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\noFlash\TorrentGhost\Exception\RegexException');
         $this->subjectUnderTest->setNameNotContainsPattern('grump grump');
+    }
+
+    public function testNameNotContainsPatternAcceptsNull()
+    {
+        $this->subjectUnderTest->setNameNotContainsPattern('/./');
+        $this->subjectUnderTest->setNameNotContainsPattern(null);
+        $this->assertNull($this->subjectUnderTest->getNameNotContainsPattern());
     }
 
     public function testRuleIsConsideredValidIfAtLeastOneSourceWasAdded()

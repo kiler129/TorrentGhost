@@ -128,7 +128,7 @@ class DownloadRule implements RuleInterface
      */
     public function setNameContainsPattern($nameContainsPattern)
     {
-        if (@preg_match($nameContainsPattern, null) === false) {
+        if ($nameContainsPattern !== null && @preg_match($nameContainsPattern, null) === false) {
             throw new RegexException('Name contains pattern invalid', $nameContainsPattern);
         }
 
@@ -155,7 +155,7 @@ class DownloadRule implements RuleInterface
      */
     public function setNameNotContainsPattern($nameNotContainsPattern)
     {
-        if (@preg_match($nameNotContainsPattern, null) === false) {
+        if ($nameNotContainsPattern !== null && @preg_match($nameNotContainsPattern, null) === false) {
             throw new RegexException('Name not contains pattern invalid', $nameNotContainsPattern);
         }
 
