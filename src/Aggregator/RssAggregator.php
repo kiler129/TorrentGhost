@@ -119,6 +119,14 @@ class RssAggregator extends AbstractAggregator
     }
 
     /**
+     * @inheritDoc
+     */
+    public function extractLink($string)
+    {
+        return parent::extractLink(htmlspecialchars_decode($string));
+    }
+
+    /**
      * Triggers downloading new data from origin and parsing it.
      * Normally this method is executed by ping(), but you may decide to call it manually at any time.
      */

@@ -392,4 +392,16 @@ class RssAggregatorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($randomNumber, $this->subjectUnderTest->getPingInterval());
     }
+
+    public function testLinkHtmlSpecialCharsAreDecodedByExtractLink()
+    {
+        $this->aggregatorConfiguration->expects($this->atLeastOnce())->method('getLinkExtractPattern')->willReturn(
+            '/^(.*?)$/'
+        );
+
+        $testString = 'http://example.com/file.bin?x=abc&amp;y=123';
+        $expectedResult = 'http://example.com/file.bin?x=abc&y=123';
+
+        $this->assertSame($expectedResult, $this->subjectUnderTest->extractLink($testString));
+    }
 }
