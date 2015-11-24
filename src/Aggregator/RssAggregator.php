@@ -144,6 +144,10 @@ class RssAggregator extends AbstractAggregator
         $this->lastSuccessfulDownload = time();
 
         $feed = $this->parseFeedXml($feed);
+        if($feed === false) {
+            return;
+        }
+
         $this->blacklist->applyBlacklist($feed);
 
         if (empty($feed)) {
@@ -180,7 +184,10 @@ class RssAggregator extends AbstractAggregator
             return false;
         }
 
-        return $fetchJob->getResponse()->getBody()->getContents();
+        $responseStream = $fetchJob->getResponseStream();
+        fseek($responseStream, 0);
+
+        return stream_get_contents($responseStream);
     }
 
     /**
