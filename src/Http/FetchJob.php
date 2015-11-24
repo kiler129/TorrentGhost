@@ -24,6 +24,8 @@ use Psr\Http\Message\ResponseInterface;
  * Represents file download job executed for each torrent
  *
  * @todo Implement file size limit for real ;)
+ * @todo Replace cUrl with raw streams with http(s) context - cUrl is horrible to control
+ * @deprecated
  */
 class FetchJob
 {
