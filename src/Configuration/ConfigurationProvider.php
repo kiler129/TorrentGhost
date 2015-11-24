@@ -20,6 +20,7 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Configuration
+ *
  * @TODO Every configuration should be returned as reference + cfg. objects should not be instantiated more once
  */
 class ConfigurationProvider implements ConfigurationInterface
@@ -118,6 +119,7 @@ class ConfigurationProvider implements ConfigurationInterface
             '\noFlash\TorrentGhost\Configuration\TorrentGhostConfiguration', $this->rawConfiguration['torrentGhost']
         );
 
+
         return $configuration->build();
     }
 
@@ -143,7 +145,7 @@ class ConfigurationProvider implements ConfigurationInterface
      */
     public function getAggregatorConfiguration($name)
     {
-        if (!isset($this->rawConfiguration['dataSources'][$name])) {
+        if (!isset($this->rawConfiguration['dataSources'][$name]['type'])) {
             return false;
         }
 
@@ -152,7 +154,10 @@ class ConfigurationProvider implements ConfigurationInterface
             $this->rawConfiguration['dataSources'][$name]['type']
         );
         if ($className === false) { //In theory this should never happen because ConfigurationValidator should catch it
-            throw new ConfigurationException("Failed to locate configuration class for $name aggregator (THIS IS BUG)");
+            throw new ConfigurationException(
+                'Invalid type "' . $this->rawConfiguration['dataSources'][$name]['type'] . '" defined for "' . $name .
+                '" source'
+            );
         }
 
         $config = $this->rawConfiguration['dataSources'][$name];
