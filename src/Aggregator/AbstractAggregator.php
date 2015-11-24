@@ -75,7 +75,7 @@ abstract class AbstractAggregator implements AggregatorInterface
      */
     public function getName()
     {
-        return static::TYPE . '_' . $this->configuration->getName();
+        return $this->configuration->getName();
     }
 
     /**
